@@ -124,17 +124,17 @@ function App() {
         <Route
           path="/email"
           element={
-            <Layout>
+           
               <EmailInputScreen />
-            </Layout>
+           
           }
         />
         <Route
           path="/login"
           element={
-            <Layout>
+           
               <LoginComponent />
-            </Layout>
+           
           }
         />
 
