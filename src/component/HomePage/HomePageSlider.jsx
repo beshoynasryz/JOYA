@@ -145,7 +145,7 @@ const HomePageSlider = () => {
         <div className="mt-8 text-center">
           <button
             onClick={handleAddMore}
-            className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
+            className="bg-[#3d6a64] text-white px-6 py-2 rounded-md hover:bg-blue-600"
           >
             Add More
           </button>

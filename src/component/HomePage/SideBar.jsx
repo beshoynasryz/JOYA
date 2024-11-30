@@ -11,7 +11,7 @@ const Sidebar = () => {
 
   return (
     <aside className="w-full md:w-1/5 bg-[#1a1f1e] p-4 md:block hidden">
-      <div className="text-center text-xl font-bold mb-8">JOYA PROPERTIES</div>
+      <div className="text-center text-xl font-bold mb-8 text-white">JOYA PROPERTIES</div>
       <nav className="space-y-6">
         <div
           className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"

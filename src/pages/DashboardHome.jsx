@@ -3,6 +3,7 @@ import HomePageSlider from '../component/HomePage/HomePageSlider';
 import SecondSection from '../component/HomePage/SecondSection';
 import Sidebar from '../component/HomePage/SideBar';
 import Testimonials from '../component/HomePage/Testimonials';
+import Partners from '../component/HomePage/Partners';
 
 const DashboardHome = () => {
   return (
@@ -15,6 +16,7 @@ const DashboardHome = () => {
         <HomePageSlider />
         <SecondSection />
         <Testimonials />
+        <Partners />
       </div>
     </div>
   );

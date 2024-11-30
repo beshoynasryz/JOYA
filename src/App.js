@@ -17,8 +17,8 @@ import SpecificBlog from "./component/Blogs/SpesificBlog.jsx";
 import EmailInputScreen from "./pages/EmailPage.jsx";
 import LoginComponent from "./pages/LoginPage.jsx";
 import Properties from "./pages/Dashboard.jsx";
-import HomePageSlider from "./component/HomePage/HomePageSlider.jsx";
 import DashboardHome from "./pages/DashboardHome.jsx";
+import AddProperty from "./pages/AddProperty.jsx";
 
 function App() {
   return (
@@ -141,6 +141,7 @@ function App() {
         {/* Route without Header and Footer */}
         <Route path="/Properties" element={<Properties />} />
         <Route path="/DashboardHome" element={<DashboardHome />} />
+        <Route path="/add-property" element={<AddProperty />} />
       </Routes>
     </BrowserRouter>
   );
