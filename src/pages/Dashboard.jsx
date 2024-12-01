@@ -1,6 +1,6 @@
 import React from "react";
 
-import Sidebar from "../component/HomePage/SideBar";
+import Sidebar from "../component/DashboredCompnents/SideBar";
 
 function PropertiesPage() {
   const properties = [

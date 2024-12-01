@@ -19,7 +19,12 @@ import LoginComponent from "./pages/LoginPage.jsx";
 import Properties from "./pages/Dashboard.jsx";
 import DashboardHome from "./pages/DashboardHome.jsx";
 import AddProperty from "./pages/AddProperty.jsx";
-import Team from "./component/HomePage/Team.jsx";
+import Team from "./component/DashboredCompnents/Team.jsx";
+import AboutUs from "./component/DashboredCompnents/AboutUs.jsx";
+import ContactUs from "./component/DashboredCompnents/ContactUs.jsx";
+import Blogs from "./component/DashboredCompnents/Blog.jsx";
+import AddBlog from "./component/DashboredCompnents/AddBlog.jsx";
+import EditBlog from "./component/DashboredCompnents/EditBlog.jsx";
 
 function App() {
   return (
@@ -144,6 +149,11 @@ function App() {
         <Route path="/DashboardHome" element={<DashboardHome />} />
         <Route path="/add-property" element={<AddProperty />} />
         <Route path="/team" element={<Team />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        {/* <Route path="/blogs" element={<Blogs/>} />
+        <Route path="/add-blog" element={<AddBlog />} />
+        <Route path="/edit-blog/:id" element={<EditBlog />} /> */}
       </Routes>
     </BrowserRouter>
   );

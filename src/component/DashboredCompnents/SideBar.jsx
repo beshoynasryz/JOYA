@@ -113,6 +113,11 @@ const Sidebar = () => {
               icon: <FaEnvelope size={20} />,
               path: "/contact-us",
             },
+            {
+              label: "About Us",
+              icon: <FaEnvelope size={20} />,
+              path: "/about-us",
+            },
             { label: "Blogs", icon: <FaBlog size={20} />, path: "/blogs" },
             { label: "Logout", icon: <FaSignOutAlt size={20} />, path: "/logout" },
           ].map((item) => (
