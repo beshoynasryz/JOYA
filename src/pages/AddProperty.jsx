@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../component/HomePage/SideBar';
 
 const AddProperty = () => {
+  const [propertyType, setPropertyType] = useState('');
+  const [details, setDetails] = useState({
+    startingPrice: '',
+    bookingFees: '',
+    paymentPlan: '',
+    handoverDate: '',
+    numberOfBedrooms: ''
+  });
+
+  const handlePropertyTypeChange = (event) => {
+    setPropertyType(event.target.value);
+  };
+
+  const handleDetailChange = (key, value) => {
+    setDetails((prev) => ({ ...prev, [key]: value }));
+  };
+
   return (
     <div className="flex min-h-screen bg-[#111612] text-white">
       {/* Sidebar on the Left */}
@@ -11,50 +28,78 @@ const AddProperty = () => {
       <div className="flex-1 p-6">
         <h1 className="text-2xl font-semibold mb-6 text-center">Add Property</h1>
 
-        {/* Search Section */}
+        {/* Search Bar and Dropdown */}
+        <div className="mb-6 flex gap-4">
+          <div className="flex-1">
+            <label className="block text-sm font-medium mb-2">Search For Properties</label>
+            <input
+              type="text"
+              placeholder="Search properties..."
+              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Filter By Type</label>
+            <select
+              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">All Types</option>
+              <option value="Residential">Residential</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Industrial">Industrial</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Property Type Selection */}
         <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-4">Search For Properties</h2>
-          <input
-            type="text"
-            placeholder="All Types"
-            className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <h2 className="text-lg font-semibold mb-4">Choose Property Type</h2>
+          <div className="flex items-center space-x-6">
+            {['Off Plan', 'Feature', 'Luxury'].map((type) => (
+              <label key={type} className="flex items-center">
+                <input
+                  type="radio"
+                  name="propertyType"
+                  value={type}
+                  checked={propertyType === type}
+                  onChange={handlePropertyTypeChange}
+                  className="form-radio text-blue-500"
+                />
+                <span className="ml-2">{type}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Image Upload */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label className="block text-sm font-medium mb-2">Property Image</label>
+            <div className="border border-dashed border-[#3d6a64] rounded p-4 text-center">
+              Drag & Drop or Upload
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Property Cover Image</label>
+            <div className="border border-dashed border-[#3d6a64] rounded p-4 text-center">
+              Drag & Drop or Upload
+            </div>
+          </div>
         </div>
 
         {/* Property Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Property Type */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2">Property Description</label>
+          <textarea
+            placeholder="Add a detailed description of the property..."
+            className="w-full p-4 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="5"
+          />
+        </div>
+
+        {/* Location and Price */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <div>
-            <label className="block text-sm font-medium mb-2">Property Type</label>
-            <input
-              type="text"
-              placeholder="Off Plan, Feature, Luxury"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Property Name */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Property Name</label>
-            <input
-              type="text"
-              placeholder="The Acres Estates"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Property Description */}
-          <div className="lg:col-span-2">
-            <label className="block text-sm font-medium mb-2">Property Description</label>
-            <textarea
-              placeholder="Add a detailed description of the property..."
-              className="w-full p-4 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              rows="5"
-            />
-          </div>
-
-          {/* Property Location */}
-          <div className="lg:col-span-2">
             <label className="block text-sm font-medium mb-2">Property Location</label>
             <input
               type="text"
@@ -62,8 +107,6 @@ const AddProperty = () => {
               className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/* Property Price */}
           <div>
             <label className="block text-sm font-medium mb-2">Price</label>
             <input
@@ -72,94 +115,55 @@ const AddProperty = () => {
               className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/* Property Beds */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Beds</label>
-            <input
-              type="number"
-              placeholder="4"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Property Bathrooms */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Bathrooms</label>
-            <input
-              type="number"
-              placeholder="4"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Property Space */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Space of Property</label>
-            <input
-              type="text"
-              placeholder="3400 sqft"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Property Image Upload */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Property Image</label>
-            <div className="border border-dashed border-[#3d6a64] rounded p-4 text-center">
-              Drag & Drop or Upload
-            </div>
-          </div>
-
-          {/* Cover Image Upload */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Cover Image</label>
-            <div className="border border-dashed border-[#3d6a64] rounded p-4 text-center">
-              Drag & Drop or Upload
-            </div>
-          </div>
         </div>
 
-        {/* Additional Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-          {/* Starting Price */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Starting Price</label>
-            <input
-              type="text"
-              placeholder="1,400,000 AED"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        {/* Beds, Bathrooms, and Space */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {['Beds', 'Bathrooms', 'Space of Property'].map((field) => (
+            <div key={field}>
+              <label className="block text-sm font-medium mb-2">{field}</label>
+              <input
+                type="text"
+                placeholder={`Enter ${field}`}
+                className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Payment Plan and Location Details */}
+        {['Payment Plan of the Property', 'Location Details'].map((label) => (
+          <div className="mb-6" key={label}>
+            <label className="block text-sm font-medium mb-2">{label}</label>
+            <textarea
+              placeholder={`Add ${label.toLowerCase()}...`}
+              className="w-full p-4 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows="5"
             />
           </div>
+        ))}
 
-          {/* Booking Fees */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Booking Fees</label>
-            <input
-              type="text"
-              placeholder="20%"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Payment Plan */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Payment Plan</label>
-            <input
-              type="text"
-              placeholder="80/20"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Handover Date */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Handover Date</label>
-            <input
-              type="text"
-              placeholder="2026"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+        {/* Key-Value Details */}
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-4">Add Details</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {[
+              { title: 'Starting Price', key: 'startingPrice' },
+              { title: 'Booking Fees', key: 'bookingFees' },
+              { title: 'Payment Plan', key: 'paymentPlan' },
+              { title: 'Handover Date', key: 'handoverDate' },
+              { title: 'Number of Bedrooms', key: 'numberOfBedrooms' }
+            ].map(({ title, key }) => (
+              <div key={key} className="flex justify-between items-center">
+                <label className="text-sm font-medium">{title}</label>
+                <input
+                  type="text"
+                  value={details[key]}
+                  onChange={(e) => handleDetailChange(key, e.target.value)}
+                  className="p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            ))}
           </div>
         </div>
 

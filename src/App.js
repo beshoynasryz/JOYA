@@ -19,6 +19,7 @@ import LoginComponent from "./pages/LoginPage.jsx";
 import Properties from "./pages/Dashboard.jsx";
 import DashboardHome from "./pages/DashboardHome.jsx";
 import AddProperty from "./pages/AddProperty.jsx";
+import Team from "./component/HomePage/Team.jsx";
 
 function App() {
   return (
@@ -142,6 +143,7 @@ function App() {
         <Route path="/Properties" element={<Properties />} />
         <Route path="/DashboardHome" element={<DashboardHome />} />
         <Route path="/add-property" element={<AddProperty />} />
+        <Route path="/team" element={<Team />} />
       </Routes>
     </BrowserRouter>
   );

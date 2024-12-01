@@ -1,91 +1,133 @@
-import React from "react";
-import { FaHome, FaBuilding, FaPlusSquare, FaCog, FaUsers, FaEnvelope, FaBlog, FaSignOutAlt } from "react-icons/fa";
+import React, { useState } from "react";
+import {
+  FaHome,
+  FaBuilding,
+  FaPlusSquare,
+  FaCog,
+  FaUsers,
+  FaEnvelope,
+  FaBlog,
+  FaSignOutAlt,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Sidebar = () => {
   const navigate = useNavigate(); // Initialize the navigate function
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle the menu
 
   const handleNavigation = (path) => {
     navigate(path); // Navigate to the specified path
+    setIsMenuOpen(false); // Close the menu after navigation
   };
 
   return (
-    <aside className="w-full md:w-1/5 bg-[#1a1f1e] p-4 md:block hidden">
-      <div className="text-center text-xl font-bold mb-8 text-white">JOYA PROPERTIES</div>
-      <nav className="space-y-6">
-        <div
-          className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-          onClick={() => handleNavigation("/DashboardHome")} // Navigate to DashboardHome
+    <>
+      {/* Hamburger Icon for Mobile */}
+      <div className="fixed top-4 right-4 z-50 md:hidden">
+        <button
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          className="text-white bg-[#1a1f1e] p-2 rounded focus:outline-none"
         >
-          <FaHome size={20} />
-          <span>Home</span>
-        </div>
+          {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
+      </div>
 
-        <div
-          className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-          onClick={() => handleNavigation("/properties")} // Navigate to Properties
-        >
-          <FaBuilding size={20} />
-          <span>Properties</span>
+      {/* Sidebar Dropdown */}
+      <aside
+        className={`fixed top-0 right-0 h-screen w-3/4 bg-[#1a1f1e] z-40 transform ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        } transition-transform duration-300 md:hidden`}
+      >
+        <div className="p-6 text-xl font-bold text-white text-right">
+          JOYA PROPERTIES
         </div>
+        <nav className="space-y-6 p-4">
+          {[
+            { label: "Home", icon: <FaHome size={20} />, path: "/DashboardHome" },
+            {
+              label: "Properties",
+              icon: <FaBuilding size={20} />,
+              path: "/properties",
+            },
+            {
+              label: "Add Property",
+              icon: <FaPlusSquare size={20} />,
+              path: "/add-property",
+            },
+            { label: "Services", icon: <FaCog size={20} />, path: "/services" },
+            {
+              label: "Add Services",
+              icon: <FaPlusSquare size={20} />,
+              path: "/add-services",
+            },
+            { label: "Team", icon: <FaUsers size={20} />, path: "/team" },
+            {
+              label: "Contact Us",
+              icon: <FaEnvelope size={20} />,
+              path: "/contact-us",
+            },
+            { label: "Blogs", icon: <FaBlog size={20} />, path: "/blogs" },
+            { label: "Logout", icon: <FaSignOutAlt size={20} />, path: "/logout" },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
+              onClick={() => handleNavigation(item.path)}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </nav>
+      </aside>
 
-        <div
-          className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-          onClick={() => handleNavigation("/add-property")} // Navigate to Add Property
-        >
-          <FaPlusSquare size={20} />
-          <span>Add Property</span>
+      {/* Sidebar for Desktop */}
+      <aside className="hidden md:block md:w-1/5 bg-[#1a1f1e] p-4">
+        <div className="text-center text-xl font-bold mb-8 text-white">
+          JOYA PROPERTIES
         </div>
-
-        <div
-          className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-          onClick={() => handleNavigation("/services")} // Navigate to Services
-        >
-          <FaCog size={20} />
-          <span>Services</span>
-        </div>
-
-        <div
-          className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-          onClick={() => handleNavigation("/add-services")} // Navigate to Add Services
-        >
-          <FaPlusSquare size={20} />
-          <span>Add Services</span>
-        </div>
-
-        <div
-          className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-          onClick={() => handleNavigation("/team")} // Navigate to Team
-        >
-          <FaUsers size={20} />
-          <span>Team</span>
-        </div>
-
-        <div
-          className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-          onClick={() => handleNavigation("/contact-us")} // Navigate to Contact Us
-        >
-          <FaEnvelope size={20} />
-          <span>Contact Us</span>
-        </div>
-
-        <div
-          className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-          onClick={() => handleNavigation("/blogs")} // Navigate to Blogs
-        >
-          <FaBlog size={20} />
-          <span>Blogs</span>
-        </div>
-
-        <div
-          className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-          onClick={() => handleNavigation("/logout")} // Navigate to Logout
-        >
-          <FaSignOutAlt size={20} />
-          <span>Logout</span>
-        </div>
-      </nav>
-    </aside>
+        <nav className="space-y-6">
+          {[
+            { label: "Home", icon: <FaHome size={20} />, path: "/DashboardHome" },
+            {
+              label: "Properties",
+              icon: <FaBuilding size={20} />,
+              path: "/properties",
+            },
+            {
+              label: "Add Property",
+              icon: <FaPlusSquare size={20} />,
+              path: "/add-property",
+            },
+            { label: "Services", icon: <FaCog size={20} />, path: "/services" },
+            {
+              label: "Add Services",
+              icon: <FaPlusSquare size={20} />,
+              path: "/add-services",
+            },
+            { label: "Team", icon: <FaUsers size={20} />, path: "/team" },
+            {
+              label: "Contact Us",
+              icon: <FaEnvelope size={20} />,
+              path: "/contact-us",
+            },
+            { label: "Blogs", icon: <FaBlog size={20} />, path: "/blogs" },
+            { label: "Logout", icon: <FaSignOutAlt size={20} />, path: "/logout" },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
+              onClick={() => handleNavigation(item.path)}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </nav>
+      </aside>
+    </>
   );
 };
 
