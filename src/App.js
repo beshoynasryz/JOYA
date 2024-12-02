@@ -151,9 +151,9 @@ function App() {
         <Route path="/team" element={<Team />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
-        {/* <Route path="/blogs" element={<Blogs/>} />
+        <Route path="/blogs" element={<Blogs/>} />
         <Route path="/add-blog" element={<AddBlog />} />
-        <Route path="/edit-blog/:id" element={<EditBlog />} /> */}
+        <Route path="/edit-blog/:id" element={<EditBlog />} />
       </Routes>
     </BrowserRouter>
   );
