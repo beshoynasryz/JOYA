@@ -25,6 +25,7 @@ import ContactUs from "./component/DashboredCompnents/ContactUs.jsx";
 import Blogs from "./component/DashboredCompnents/Blog.jsx";
 import AddBlog from "./component/DashboredCompnents/AddBlog.jsx";
 import EditBlog from "./component/DashboredCompnents/EditBlog.jsx";
+import EditServices from "./component/DashboredCompnents/EditServices.jsx";
 
 function App() {
   return (
@@ -152,6 +153,7 @@ function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/blogs" element={<Blogs/>} />
+        <Route path="/edit-services" element={<EditServices/>} />
         <Route path="/add-blog" element={<AddBlog />} />
         <Route path="/edit-blog/:id" element={<EditBlog />} />
       </Routes>

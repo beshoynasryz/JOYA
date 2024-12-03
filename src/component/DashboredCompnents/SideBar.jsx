@@ -101,12 +101,8 @@ const Sidebar = () => {
               icon: <FaPlusSquare size={20} />,
               path: "/add-property",
             },
-            { label: "Services", icon: <FaCog size={20} />, path: "/services" },
-            {
-              label: "Add Services",
-              icon: <FaPlusSquare size={20} />,
-              path: "/add-services",
-            },
+            { label: "Services", icon: <FaCog size={20} />, path: "/edit-services" },
+           
             { label: "Team", icon: <FaUsers size={20} />, path: "/team" },
             {
               label: "Contact Us",
