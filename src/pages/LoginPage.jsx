@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useMutation } from "@tanstack/react-query";  // React Query's useMutation
-import axiosInstance from "../axios";  // Import the Axios instance
-import logo from "../logo.png"
+import { useMutation } from "@tanstack/react-query"; // React Query's useMutation
+import axiosInstance from "../axios"; // Import the Axios instance
+import logo from "../logo.png"; // Logo image
 
 const LoginComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");  // State to handle error messages
+  const [error, setError] = useState(""); // State to handle error messages
 
   // Toggle password visibility
   const togglePasswordVisibility = () => {
@@ -19,18 +19,15 @@ const LoginComponent = () => {
   // Define the mutation using React Query's useMutation
   const mutation = useMutation({
     mutationFn: async (loginData) => {
-      // Make the POST request to the backend to login
       const response = await axiosInstance.post("/auth/login", loginData);
-      return response.data;  // Return the data (JWT token)
+      return response.data;
     },
     onSuccess: (data) => {
-      // On success, store the token in localStorage and redirect
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token); // Store JWT token
       alert("Login Successful");
-      window.location.href = "/DashboardHome";  // Adjust this based on your routing setup
+      window.location.href = "/DashboardHome"; 
     },
     onError: (error) => {
-      // Handle error (e.g., invalid credentials)
       setError(error.response?.data?.message || "An error occurred");
     },
   });
@@ -38,7 +35,7 @@ const LoginComponent = () => {
   // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError("");  // Clear previous errors
+    setError(""); // Clear previous errors
     mutation.mutate({ email, password });
   };
 
@@ -51,7 +48,7 @@ const LoginComponent = () => {
     >
       {/* Logo */}
       <div className="text-center mb-20">
-        <img src={logo}  alt="Joya Properties Logo" className="w-72 mx-auto" />
+        <img src={logo} alt="Joya Properties Logo" className="w-72 mx-auto" />
       </div>
 
       {/* Login Box */}
@@ -112,7 +109,7 @@ const LoginComponent = () => {
         <button
           onClick={handleSubmit}
           className="w-full bg-[#3d6a64] text-white rounded-full py-3 hover:bg-[#698f8c] focus:outline-none"
-          disabled={mutation.isLoading}  // Disable the button while loading
+          disabled={mutation.isLoading} // Disable the button while loading
         >
           {mutation.isLoading ? "Logging in..." : "Login"}
         </button>
