@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useMutation } from "@tanstack/react-query";  // React Query's useMutation
 import axiosInstance from "../axios";  // Import the Axios instance
-// import logo from "../images/logo.png"
+import logo from "../images/logo.png"
 
 const LoginComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +51,7 @@ const LoginComponent = () => {
     >
       {/* Logo */}
       <div className="text-center mb-20">
-        <img src="" width={100} height={100} alt="Joya Properties Logo" className="w-96 mx-auto" />
+        <img src={logo}  alt="Joya Properties Logo" className="w-96 mx-auto" />
       </div>
 
       {/* Login Box */}
