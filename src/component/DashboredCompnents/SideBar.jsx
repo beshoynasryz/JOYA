@@ -17,9 +17,19 @@ const Sidebar = () => {
   const navigate = useNavigate(); // Initialize the navigate function
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle the menu
 
+  // Handle navigation to different pages
   const handleNavigation = (path) => {
     navigate(path); // Navigate to the specified path
     setIsMenuOpen(false); // Close the menu after navigation
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    // Clear the JWT token from localStorage
+    localStorage.removeItem("token");
+
+    // Redirect to the login page
+    navigate("/login");
   };
 
   return (
@@ -44,37 +54,51 @@ const Sidebar = () => {
           JOYA PROPERTIES
         </div>
         <nav className="space-y-6 p-4">
-          {[
-            { label: "Home", icon: <FaHome size={20} />, path: "/DashboardHome" },
-            {
-              label: "Properties",
-              icon: <FaBuilding size={20} />,
-              path: "/properties",
-            },
-            {
-              label: "Add Property",
-              icon: <FaPlusSquare size={20} />,
-              path: "/add-property",
-            },
-            { label: "Services", icon: <FaCog size={20} />, path: "/services" },
-            {
-              label: "Add Services",
-              icon: <FaPlusSquare size={20} />,
-              path: "/add-services",
-            },
-            { label: "Team", icon: <FaUsers size={20} />, path: "/team" },
-            {
-              label: "Contact Us",
-              icon: <FaEnvelope size={20} />,
-              path: "/contact-us",
-            },
-            { label: "Blogs", icon: <FaBlog size={20} />, path: "/blogs" },
-            { label: "Logout", icon: <FaSignOutAlt size={20} />, path: "/logout" },
-          ].map((item) => (
+          {[{
+            label: "Home", 
+            icon: <FaHome size={20} />, 
+            path: "/DashboardHome"
+          },
+          {
+            label: "Properties", 
+            icon: <FaBuilding size={20} />, 
+            path: "/properties"
+          },
+          {
+            label: "Add Property", 
+            icon: <FaPlusSquare size={20} />, 
+            path: "/add-property"
+          },
+          {
+            label: "Services", 
+            icon: <FaCog size={20} />, 
+            path: "/services"
+          },
+          {
+            label: "Team", 
+            icon: <FaUsers size={20} />, 
+            path: "/team"
+          },
+          {
+            label: "Contact Us", 
+            icon: <FaEnvelope size={20} />, 
+            path: "/contact-us"
+          },
+          {
+            label: "Blogs", 
+            icon: <FaBlog size={20} />, 
+            path: "/blogs"
+          },
+          {
+            label: "Logout", 
+            icon: <FaSignOutAlt size={20} />, 
+            path: "#", // Just for the logout action
+            onClick: handleLogout // Call the handleLogout function
+          }].map((item) => (
             <div
               key={item.label}
               className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-              onClick={() => handleNavigation(item.path)}
+              onClick={() => item.onClick ? item.onClick() : handleNavigation(item.path)}
             >
               {item.icon}
               <span>{item.label}</span>
@@ -89,38 +113,56 @@ const Sidebar = () => {
           JOYA PROPERTIES
         </div>
         <nav className="space-y-6">
-          {[
-            { label: "Home", icon: <FaHome size={20} />, path: "/DashboardHome" },
-            {
-              label: "Properties",
-              icon: <FaBuilding size={20} />,
-              path: "/properties",
-            },
-            {
-              label: "Add Property",
-              icon: <FaPlusSquare size={20} />,
-              path: "/add-property",
-            },
-            { label: "Services", icon: <FaCog size={20} />, path: "/edit-services" },
-           
-            { label: "Team", icon: <FaUsers size={20} />, path: "/team" },
-            {
-              label: "Contact Us",
-              icon: <FaEnvelope size={20} />,
-              path: "/contact-us",
-            },
-            {
-              label: "About Us",
-              icon: <FaEnvelope size={20} />,
-              path: "/about-us",
-            },
-            { label: "Blogs", icon: <FaBlog size={20} />, path: "/blogs" },
-            { label: "Logout", icon: <FaSignOutAlt size={20} />, path: "/logout" },
-          ].map((item) => (
+          {[{
+            label: "Home", 
+            icon: <FaHome size={20} />, 
+            path: "/DashboardHome"
+          },
+          {
+            label: "Properties", 
+            icon: <FaBuilding size={20} />, 
+            path: "/properties"
+          },
+          {
+            label: "Add Property", 
+            icon: <FaPlusSquare size={20} />, 
+            path: "/add-property"
+          },
+          {
+            label: "Services", 
+            icon: <FaCog size={20} />, 
+            path: "/edit-services"
+          },
+          {
+            label: "Team", 
+            icon: <FaUsers size={20} />, 
+            path: "/team"
+          },
+          {
+            label: "Contact Us", 
+            icon: <FaEnvelope size={20} />, 
+            path: "/contact-us"
+          },
+          {
+            label: "About Us", 
+            icon: <FaEnvelope size={20} />, 
+            path: "/about-us"
+          },
+          {
+            label: "Blogs", 
+            icon: <FaBlog size={20} />, 
+            path: "/blogs"
+          },
+          {
+            label: "Logout", 
+            icon: <FaSignOutAlt size={20} />, 
+            path: "#", // Just for the logout action
+            onClick: handleLogout // Call the handleLogout function
+          }].map((item) => (
             <div
               key={item.label}
               className="text-white flex items-center space-x-4 p-3 hover:bg-[#3d6a64] rounded-md cursor-pointer"
-              onClick={() => handleNavigation(item.path)}
+              onClick={() => item.onClick ? item.onClick() : handleNavigation(item.path)}
             >
               {item.icon}
               <span>{item.label}</span>

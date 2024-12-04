@@ -1,14 +1,45 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
-import logo from "../component/Mask group.svg"; // Import the logo
+import { useMutation } from "@tanstack/react-query";  // React Query's useMutation
+import axiosInstance from "../axios";  // Import the Axios instance
+import logo from "../images/logo.png"
 
 const LoginComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");  // State to handle error messages
 
+  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  // Define the mutation using React Query's useMutation
+  const mutation = useMutation({
+    mutationFn: async (loginData) => {
+      // Make the POST request to the backend to login
+      const response = await axiosInstance.post("/auth/login", loginData);
+      return response.data;  // Return the data (JWT token)
+    },
+    onSuccess: (data) => {
+      // On success, store the token in localStorage and redirect
+      localStorage.setItem("token", data.token);
+      alert("Login Successful");
+      window.location.href = "/DashboardHome";  // Adjust this based on your routing setup
+    },
+    onError: (error) => {
+      // Handle error (e.g., invalid credentials)
+      setError(error.response?.data?.message || "An error occurred");
+    },
+  });
+
+  // Handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError("");  // Clear previous errors
+    mutation.mutate({ email, password });
   };
 
   return (
@@ -20,24 +51,27 @@ const LoginComponent = () => {
     >
       {/* Logo */}
       <div className="text-center mb-20">
-        <img src={logo} alt="Joya Properties Logo" className="w-40 mx-auto" />
+        <img src={logo} width={100} height={100} alt="Joya Properties Logo" className="w-96 mx-auto" />
       </div>
 
       {/* Login Box */}
       <div className="bg-[#1a1f21] rounded-lg px-8 py-6 shadow-lg flex flex-col items-center w-[90%] max-w-md space-y-4">
-        {/* Username Input */}
+        {/* Email Input */}
         <div className="w-full">
           <label
-            htmlFor="username"
+            htmlFor="email"
             className="block text-sm text-[#9da5a4] mb-2 tracking-wide"
           >
-            User Name
+            Email
           </label>
           <input
-            type="text"
-            id="username"
-            placeholder=""
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full bg-[#0e1414] border-none rounded-full h-12 px-4 text-[#EFECE6] placeholder-[#9da5a4] focus:outline-none"
+            required
           />
         </div>
 
@@ -52,8 +86,11 @@ const LoginComponent = () => {
           <input
             type={showPassword ? "text" : "password"}
             id="password"
-            placeholder=""
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full bg-[#0e1414] border-none rounded-full h-12 px-4 pr-12 text-[#EFECE6] placeholder-[#9da5a4] focus:outline-none"
+            required
           />
           <button
             type="button"
@@ -63,12 +100,28 @@ const LoginComponent = () => {
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
+
+        {/* Error message */}
+        {error && (
+          <div className="mt-2 text-red-600 text-sm">
+            {error}
+          </div>
+        )}
+
+        {/* Login Button */}
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-[#3d6a64] text-white rounded-full py-3 hover:bg-[#698f8c] focus:outline-none"
+          disabled={mutation.isLoading}  // Disable the button while loading
+        >
+          {mutation.isLoading ? "Logging in..." : "Login"}
+        </button>
       </div>
 
       {/* Forgot Password Link */}
       <div className="mt-4">
         <a
-          href="/forgot-password" // Replace with the actual link
+          href="/forgot-password"
           className="text-sm text-[#9da5a4] hover:text-[#EFECE6] underline"
         >
           Forgot your password?

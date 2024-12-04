@@ -26,136 +26,37 @@ import Blogs from "./component/DashboredCompnents/Blog.jsx";
 import AddBlog from "./component/DashboredCompnents/AddBlog.jsx";
 import EditBlog from "./component/DashboredCompnents/EditBlog.jsx";
 import EditServices from "./component/DashboredCompnents/EditServices.jsx";
+import PrivateRoute from "./component/PrivateRoute.js";  // Import the PrivateRoute
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Routes with Header and Footer */}
-        <Route
-          path="/"
-          element={
-            <Layout>
-              <Page />
-            </Layout>
-          }
-        />
-        <Route
-          path="/services"
-          element={
-            <Layout>
-              <Services />
-            </Layout>
-          }
-        />
-        <Route
-          path="/Contact"
-          element={
-            <Layout>
-              <ContactPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/About"
-          element={
-            <Layout>
-              <AboutPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/Projects"
-          element={
-            <Layout>
-              <Projects />
-            </Layout>
-          }
-        />
-        <Route
-          path="/Projects/Features"
-          element={
-            <Layout>
-              <Features />
-            </Layout>
-          }
-        />
-        <Route
-          path="/Projects/Features2/:id"
-          element={
-            <Layout>
-              <Features2 />
-            </Layout>
-          }
-        />
-        <Route
-          path="/Projects/Off-Plan"
-          element={
-            <Layout>
-              <OffPlan />
-            </Layout>
-          }
-        />
-        <Route
-          path="/Projects/Off-Plan2/:id"
-          element={
-            <Layout>
-              <OffPlan2 />
-            </Layout>
-          }
-        />
-        <Route
-          path="/Projects/Luxury"
-          element={
-            <Layout>
-              <Luxury />
-            </Layout>
-          }
-        />
-        <Route
-          path="/Blog"
-          element={
-            <Layout>
-              <Blog />
-            </Layout>
-          }
-        />
-        <Route
-          path="/SpecificBlog/:id"
-          element={
-            <Layout>
-              <SpecificBlog />
-            </Layout>
-          }
-        />
-        <Route
-          path="/email"
-          element={
-           
-              <EmailInputScreen />
-           
-          }
-        />
-        <Route
-          path="/login"
-          element={
-           
-              <LoginComponent />
-           
-          }
-        />
+        {/* Routes without authentication */}
+        <Route path="/" element={<Layout><Page /></Layout>} />
+        <Route path="/services" element={<Layout><Services /></Layout>} />
+        <Route path="/Contact" element={<Layout><ContactPage /></Layout>} />
+        <Route path="/About" element={<Layout><AboutPage /></Layout>} />
+        <Route path="/Projects" element={<Layout><Projects /></Layout>} />
+        <Route path="/Blog" element={<Layout><Blog /></Layout>} />
+        <Route path="/SpecificBlog/:id" element={<Layout><SpecificBlog /></Layout>} />
+        <Route path="/login" element={<LoginComponent />} />
+        <Route path="/email" element={<EmailInputScreen />} />
 
-        {/* Route without Header and Footer */}
-        <Route path="/Properties" element={<Properties />} />
-        <Route path="/DashboardHome" element={<DashboardHome />} />
-        <Route path="/add-property" element={<AddProperty />} />
-        <Route path="/team" element={<Team />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-        <Route path="/blogs" element={<Blogs/>} />
-        <Route path="/edit-services" element={<EditServices/>} />
-        <Route path="/add-blog" element={<AddBlog />} />
-        <Route path="/edit-blog/:id" element={<EditBlog />} />
+        {/* Protected Routes */}
+        <Route element={<PrivateRoute />}>
+          {/* All routes under this will require login */}
+          <Route path="/Properties" element={<Properties />} />
+          <Route path="/DashboardHome" element={<DashboardHome />} />
+          <Route path="/add-property" element={<AddProperty />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/edit-services" element={<EditServices />} />
+          <Route path="/add-blog" element={<AddBlog />} />
+          <Route path="/edit-blog/:id" element={<EditBlog />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
