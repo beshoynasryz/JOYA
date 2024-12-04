@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useMutation } from "@tanstack/react-query";  // React Query's useMutation
 import axiosInstance from "../axios";  // Import the Axios instance
-import logo from "../images/logo.png"
+import logo from "../images/logo.svg"
 
 const LoginComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
