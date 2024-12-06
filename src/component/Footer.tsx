@@ -1,34 +1,24 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import axiosInstance from "../axios"; // Make sure to import your axios instance
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
-const links = [
-  { name: "Home", href: "/" },
-  { name: "Projects", href: "/Projects" },
-  { name: "Services", href: "/Services" },
-  { name: "About Us", href: "/About" },
-  { name: "Contact", href: "/Contact" },
-];
-
-const socialMediaLinks = [
-  {
-    icon: Facebook,
-    href: "https://www.facebook.com/joyapropertiesluxe",
-  },
-  {
-    icon: Twitter,
-    href: "#", // Replace with the Twitter URL if available
-  },
-  {
-    icon: Instagram,
-    href: "https://www.instagram.com/joya_properties",
-  },
-  {
-    icon: Linkedin,
-    href: "#", // Replace with the LinkedIn URL if available
-  },
-];
+// Fetch contact info
+const fetchContactInfo = async () => {
+  const response = await axiosInstance.get("/contact");
+  return response.data[0]; // Return the first item from the array
+};
 
 const Footer = () => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['contact'],  // Query key for caching
+    queryFn: fetchContactInfo, // Function to fetch contact data
+  });
+
+  // Check for loading or error states
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error fetching contact data</div>;
+
   return (
     <footer className="bg-[#041d1a] text-[#f4f3ef] py-10">
       <div className="container mx-auto px-6 lg:px-12">
@@ -50,7 +40,13 @@ const Footer = () => {
               Quick Links
             </h4>
             <ul className="space-y-2">
-              {links.map((link) => (
+              {[
+                { name: "Home", href: "/" },
+                { name: "Projects", href: "/Projects" },
+                { name: "Services", href: "/Services" },
+                { name: "About Us", href: "/About" },
+                { name: "Contact", href: "/Contact" },
+              ].map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
@@ -69,15 +65,29 @@ const Footer = () => {
               Contact Us
             </h4>
             <p className="text-base text-[#f0ede6]/80 mb-1">
-              Dubai, Business Bay, Prime Tower 1401
+              {data?.description || "No description available"}
             </p>
-            <p className="text-base text-[#f0ede6]/80 mb-1">Phone: +971 58 597 6060</p>
-            <p className="text-base text-[#f0ede6]/80 mb-4">
-              Email: info@joyaproperties.com
+            <p className="text-base text-[#f0ede6]/80 mb-1">
+              Phone: {data?.phone || "N/A"}
             </p>
+            <p className="text-base text-[#f0ede6]/80 mb-1">
+              Email: {data?.email || "N/A"}
+            </p>
+            <p className="text-base text-[#f0ede6]/80 mb-1">
+              Map URL:{" "}
+              <a href={data?.mapUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400">
+                {data?.mapUrl || "No map URL"}
+              </a>
+            </p>
+            
             {/* Social Media Links */}
             <div className="flex space-x-4 justify-center lg:justify-start">
-              {socialMediaLinks.map(({ icon: Icon, href }, index) => (
+              {[
+                { icon: Facebook, href: data?.facebook || "#" },
+                { icon: Twitter, href: data?.twitter || "#" },
+                { icon: Instagram, href: data?.instagram || "#" },
+                { icon: Linkedin, href: data?.linkedin || "#" },
+              ].map(({ icon: Icon, href }, index) => (
                 <a
                   key={index}
                   href={href}
@@ -91,19 +101,18 @@ const Footer = () => {
             </div>
           </div>
 
-     {/* Map Section */}
-<div className="flex flex-col items-center lg:items-start">
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3623.998915856884!2d55.2612381!3d25.1884074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f682d1ff90fe7%3A0x14375ae978cdf590!2sPrime%20Tower%20-%20Business%20Bay%20-%20Dubai!5e0!3m2!1sen!2sae!4v1604414715792!5m2!1sen!2sae"
-    width="280"
-    height="200"
-    style={{ border: 0 }}
-    allowFullScreen=""
-    loading="lazy"
-    className="rounded-lg mb-2"
-  ></iframe>
-</div>
-
+          {/* Map Section */}
+          <div className="flex flex-col items-center lg:items-start">
+            <iframe
+              src={`https://www.google.com/maps/embed?pb=${data?.mapUrl || ""}`}
+              width="280"
+              height="200"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              className="rounded-lg mb-2"
+            ></iframe>
+          </div>
         </div>
 
         {/* Divider Line & Copyright */}
