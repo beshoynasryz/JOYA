@@ -125,7 +125,7 @@ const EditServices = () => {
                 <img
                   src={
                     service.image
-                      ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/${service.image}`
+                      ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${service.image}`
                       : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/images/default-image.jpg`
                   }
                   alt={service.title}
