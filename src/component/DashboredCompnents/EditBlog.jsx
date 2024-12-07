@@ -1,13 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { FaSave } from "react-icons/fa"; // FontAwesome icons
 import { useNavigate, useParams } from "react-router-dom"; // For navigation and params
+import { useQuery, useMutation } from '@tanstack/react-query'; // React Query hooks
+import axiosInstance from '../../axios'; // Axios instance for API requests
 import Sidebar from "./SideBar";
+
+// Fetch blog data by ID from the API
+const fetchBlogById = async (id) => {
+  const response = await axiosInstance.get(`/blog/${id}`);
+  return response.data;
+};
+
+// Update blog data via API
+const updateBlog = async (updatedBlog) => {
+  const response = await axiosInstance.put(`/blog/${updatedBlog._id}`, updatedBlog); // Ensure correct id format
+  return response.data;
+};
 
 const EditBlog = () => {
   const { id } = useParams(); // Get the blog id from the URL
   const navigate = useNavigate();
 
   const [blog, setBlog] = useState({
+    _id: "",
     title: "",
     paragraph: "",
     author: "",
@@ -16,31 +31,47 @@ const EditBlog = () => {
     image: "",
   });
 
-  // Simulate fetching blog data based on ID (could be replaced with an API call)
-  useEffect(() => {
-    // Mock data for the blog (replace this with an actual API call)
-    const fetchedBlog = {
-      id,
-      title: "Blog Title 1",
-      paragraph: "This is a short description of the blog content.",
-      author: "John Doe",
-      date: "2024-12-01",
-      link: "https://example.com",
-      image: "https://via.placeholder.com/300x200",
-    };
-    setBlog(fetchedBlog);
-  }, [id]);
+  // Fetch the blog data by ID using React Query (v5 format)
+  const { data: fetchedBlog, isLoading, isError, error } = useQuery({
+    queryKey: ['blog', id],  // Define the query key
+    queryFn: () => fetchBlogById(id),  // Define the query function
+    enabled: !!id,  // Only run the query if id is available
+  });
 
-  const handleSaveChanges = () => {
-    // Implement the logic to save changes (e.g., send to API)
-    alert("Blog updated!");
-    navigate("/blogs"); // Redirect back to Blogs page after save
-  };
+  useEffect(() => {
+    if (fetchedBlog) {
+      setBlog(fetchedBlog); // Populate form with the fetched blog data
+    }
+  }, [fetchedBlog]);
+
+  const { mutate } = useMutation({
+    mutationFn: updateBlog,  // Define the mutation function
+    onSuccess: () => {
+      alert("Blog updated!");
+      navigate("/blogs"); // Redirect back to Blogs page after save
+    },
+    onError: (error) => {
+      console.error("Error updating blog:", error);
+    },
+  });
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setBlog({ ...blog, image: URL.createObjectURL(file) }); // Update image preview
+    setBlog({ ...blog, image: file ? URL.createObjectURL(file) : "" }); // Update image preview or clear it
   };
+
+  const handleSaveChanges = () => {
+    // Ensure the image is either a URL (if selected) or empty string
+    const updatedBlog = {
+      ...blog,
+      image: blog.image || "", // Ensure image is not null, send empty string if no image
+    };
+
+    mutate(updatedBlog); // Trigger the mutation to update the blog
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
 
   return (
     <div className="flex min-h-screen bg-[#111612] text-white">
@@ -68,9 +99,7 @@ const EditBlog = () => {
             <label className="block text-sm font-medium mb-2">Paragraph</label>
             <textarea
               value={blog.paragraph}
-              onChange={(e) =>
-                setBlog({ ...blog, paragraph: e.target.value })
-              }
+              onChange={(e) => setBlog({ ...blog, paragraph: e.target.value })}
               placeholder="Enter blog paragraph"
               className="w-full p-4 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-[#3d6a64] mb-4"
               rows="5"

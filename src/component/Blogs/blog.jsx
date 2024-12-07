@@ -1,45 +1,36 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import axiosInstance from '../../axios'; // Importing Axios instance
+
+// Fetch function for all blogs
+const fetchBlogs = async () => {
+  try {
+    const response = await axiosInstance.get("/blog");
+    console.log("API Response:", response); // Log response for debugging
+    return response?.data || []; // Return the blog array or an empty array if undefined
+  } catch (error) {
+    console.error("Error fetching blogs:", error); // Log any errors
+    throw error; // Ensure the query knows there was an error
+  }
+};
 
 const Blog = () => {
-  const [blogs, setBlogs] = useState([]); // State to store blogs
-  const [loading, setLoading] = useState(true); // State to manage loading status
+  const { data: blogs, isLoading, isError, error } = useQuery({
+    queryKey: ["blogs"], // Query key
+    queryFn: fetchBlogs, // Query function
+  });
 
-  // Fetch blogs from API
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get("https://joya-back.onrender.com/blog");
-        setBlogs(response.data.data); // Update blogs state with fetched data
-      } catch (error) {
-        console.error("Error fetching the blogs:", error);
-      } finally {
-        setLoading(false); // Set loading to false
-      }
-    };
-
-    fetchBlogs();
-  }, []); // Empty dependency array ensures it runs once on mount
+  // Log the blogs data to debug
+  console.log("Blogs Data:", blogs);
 
   return (
     <div className="bg-[#111612] text-white">
-      <div
-        style={{
-          marginBottom: 60,
-          color: 101612,
-          display: false,
-        }}
-      >
-        .
-      </div>
-
       {/* Hero Section */}
       <div className="relative w-full h-[300px] bg-[#111612] flex flex-col items-center justify-center text-center px-4">
         <h1 className="text-4xl md:text-6xl font-bold text-white">NEWS & BLOGS</h1>
         <div className="w-16 h-[2px] bg-gray-300 my-4"></div>
         <p className="text-xl md:text-2xl font-light text-gray-400">
-          Discover the latest insights, tips, and updates about the Dubai real
-          estate market
+          Discover the latest insights, tips, and updates about the Dubai real estate market
         </p>
       </div>
 
@@ -47,11 +38,15 @@ const Blog = () => {
       <div className="py-12 px-4">
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Loading Indicator */}
-          {loading ? (
+          {isLoading ? (
             <div className="text-center">
               <p className="text-xl text-gray-400">Loading blogs...</p>
             </div>
-          ) : blogs.length > 0 ? (
+          ) : isError ? (
+            <div className="text-center">
+              <p className="text-xl text-red-500">Error: {error.message}</p>
+            </div>
+          ) : blogs?.length > 0 ? (
             blogs.map((blog) => (
               <a
                 href={`/SpecificBlog/${blog._id}`} // Dynamic link to /SpecificBlog/:id
@@ -61,8 +56,8 @@ const Blog = () => {
                 {/* Image Section */}
                 <div className="w-full md:w-1/3 relative">
                   <img
-                    src={blog.image || "https://via.placeholder.com/300"} // Fallback image
-                    alt={blog.title}
+                    src={blog.image || "https://via.placeholder.com/300"} // Fallback image if `image` is null
+                    alt={blog.title || "No Title"} // Use fallback title if `title` is null
                     className="w-full h-full object-cover"
                   />
                   <span className="absolute bottom-4 right-4 text-gray-300 text-sm">
@@ -75,19 +70,19 @@ const Blog = () => {
                   {/* Title and Author */}
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-2">
-                      {blog.title || "No Title"}
+                      {blog.title || "No Title"} {/* Fallback if title is missing */}
                     </h3>
                     <p className="text-sm text-gray-500">
                       By <span className="text-blue-500">{blog.author}</span> on{" "}
-                      {blog.date || "No Date"}
+                      {new Date(blog.date).toLocaleDateString() || "No Date"}
                     </p>
                   </div>
 
                   {/* Description */}
                   <p className="text-[#a0b3b1] text-sm mt-4 mb-4 flex-grow truncate-description">
-                    {blog.description
-                      ? blog.description.slice(0, 100) + "..."
-                      : "No description available."}
+                    {blog.paragraph
+                      ? blog.paragraph.slice(0, 100) + "..."
+                      : "No description available."} {/* Fallback text */}
                   </p>
 
                   {/* Footer - Read More and Views */}

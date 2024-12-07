@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FaSave } from "react-icons/fa"; // FontAwesome icons
 import { useNavigate } from "react-router-dom"; // For navigation
+import { useMutation } from '@tanstack/react-query';
+import axiosInstance from '../../axios'; // Make sure axiosInstance is imported
 import Sidebar from "./SideBar";
 
 const AddBlog = () => {
@@ -17,9 +19,22 @@ const AddBlog = () => {
     setImage(URL.createObjectURL(file)); // Preview the image
   };
 
+  // Mutation to handle blog creation
+  const { mutate } = useMutation({
+    mutationFn: async (newBlog) => {
+      const response = await axiosInstance.post("/blog", newBlog);
+      return response.data;
+    },
+    onSuccess: () => {
+      navigate("/blogs"); // Navigate to the blogs list after saving the blog
+    },
+    onError: (error) => {
+      console.error("Error adding blog:", error);
+    }
+  });
+
   const handleSaveBlog = () => {
     const newBlog = {
-      id: Math.floor(Math.random() * 1000), // Generate a random ID for the new blog
       title,
       paragraph,
       author,
@@ -28,8 +43,7 @@ const AddBlog = () => {
       image,
     };
 
-    // Add the new blog and redirect back to Blogs page
-    navigate("/blogs", { state: { newBlog } }); // Pass newBlog to the Blogs page
+    mutate(newBlog); // Trigger the mutation to add the blog
   };
 
   return (

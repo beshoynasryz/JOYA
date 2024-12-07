@@ -6,7 +6,7 @@ const BlogCard = ({ blog, onEdit }) => {
     <div className="bg-[#1a1f1e] p-6 rounded shadow-lg relative">
       {/* Edit Button */}
       <button
-        onClick={() => onEdit(blog.id)} // Trigger the edit functionality
+        onClick={() => onEdit(blog._id)} // Trigger the edit functionality (using blog._id)
         className="absolute top-2 right-2 bg-[#3d6a64] text-white p-2 rounded-full hover:bg-[#3d6a64]"
       >
         <FaEdit size={20} />
@@ -18,10 +18,15 @@ const BlogCard = ({ blog, onEdit }) => {
         alt={blog.title}
         className="w-full h-48 object-cover rounded mb-4"
       />
+
       {/* Blog Title and Paragraph */}
       <h3 className="text-xl font-semibold mb-2">{blog.title}</h3>
       <p className="text-sm text-gray-400 mb-4">{blog.paragraph}</p>
+
+      {/* Blog Author and Date */}
       <p className="text-sm">By {blog.author} | {blog.date}</p>
+
+      {/* Link to full blog */}
       <a href={blog.link} className="text-[#3d6a64] hover:underline">
         Read More
       </a>

@@ -1,43 +1,53 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // For navigation
-import { FaEdit, FaPlusSquare } from "react-icons/fa"; // For edit and add icons
-// Importing the BlogCard component
-import Sidebar from "./SideBar";
-import BlogCard from "./BlogCard";
+import React from 'react';
+import { useNavigate } from 'react-router-dom'; // For navigation
+import { FaEdit, FaPlusSquare, FaTrash } from 'react-icons/fa'; // For edit and add icons
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import axiosInstance from '../../axios'; // Make sure axiosInstance is properly set up for your API
+import Sidebar from './SideBar';
+import BlogCard from './BlogCard';
 
 const Blogs = () => {
   const navigate = useNavigate(); // For navigation
+  const queryClient = useQueryClient();
 
-  const [blogs, setBlogs] = useState([
-    {
-      id: 1,
-      title: "Blog Title 1",
-      paragraph: "This is a short description of the blog content.",
-      author: "John Doe",
-      date: "2024-12-01",
-      link: "https://example.com",
-      image: "https://via.placeholder.com/300x200",
+  // Use React Query to fetch blogs
+  const { data: blogs, isLoading, isError } = useQuery({
+    queryKey: ['blogs'],
+    queryFn: async () => {
+      const response = await axiosInstance.get('/blog');
+      return response.data;
     },
-    {
-      id: 2,
-      title: "Blog Title 2",
-      paragraph: "This is another short description of the blog.",
-      author: "Jane Doe",
-      date: "2024-11-30",
-      link: "https://example.com",
-      image: "https://via.placeholder.com/300x200",
-    },
-  ]);
+  });
 
-  // Function to navigate to EditBlog page, passing only the blog id
+  // Delete blog mutation directly in the component
+  const deleteBlog = useMutation({
+    mutationFn: async (id) => {
+      const response = await axiosInstance.delete(`/blog/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      // After successful deletion, invalidate the query to refresh the data
+      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+    },
+  });
+
+  // Handle Edit functionality
   const handleEditClick = (id) => {
-    navigate(`/edit-blog/${id}`); // Navigate to EditBlog page with the blog id as URL parameter
+    navigate(`/edit-blog/${id}`);
   };
 
-  // Function to navigate to AddBlog page
+  // Handle Add New Blog functionality
   const handleAddBlog = () => {
-    navigate("/add-blog"); // Redirect to AddBlog page
+    navigate('/add-blog');
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching blogs</div>;
+  }
 
   return (
     <div className="flex min-h-screen bg-[#111612] text-white">
@@ -61,8 +71,13 @@ const Blogs = () => {
 
         {/* Blog Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogs.map((blog) => (
-            <BlogCard key={blog.id} blog={blog} onEdit={handleEditClick} />
+          {blogs?.map((blog) => (
+            <BlogCard
+              key={blog._id}
+              blog={blog}
+              onEdit={handleEditClick}
+              onDelete={deleteBlog.mutate} // Pass the delete function to BlogCard
+            />
           ))}
         </div>
       </div>
