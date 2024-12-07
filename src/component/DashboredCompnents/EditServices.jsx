@@ -185,7 +185,7 @@ const EditServices = () => {
                   src={
                     currentService.image instanceof File
                       ? URL.createObjectURL(currentService.image)
-                      : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/${currentService.image}`
+                      : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${currentService.image}`
                   }
                   alt="Service"
                   className="w-full h-64 object-cover rounded mb-4"
