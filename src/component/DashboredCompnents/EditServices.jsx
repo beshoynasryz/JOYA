@@ -7,6 +7,7 @@ import axiosInstance from "../../axios"; // Axios instance
 const EditServices = () => {
   const queryClient = useQueryClient();
 
+  // State to hold the currently edited or new service
   const [currentService, setCurrentService] = useState({
     _id: null,
     title: "",
@@ -25,30 +26,27 @@ const EditServices = () => {
     queryFn: fetchServices,
   });
 
-  // Create or Update a service
+  // Save a service (create or update)
   const saveService = useMutation({
     mutationFn: async (service) => {
       const formData = new FormData();
       formData.append("title", service.title);
       formData.append("paragraph", service.paragraph);
 
-      // Check if the image is a file and append it to FormData
       if (service.image instanceof File) {
         formData.append("image", service.image);
-      } else if (service.image) {
-        formData.append("image", service.image); // Just the URL if not a file
       }
 
       if (service._id) {
-        // Update existing service
+        // Update service
         return axiosInstance.put(`/services/${service._id}`, formData);
       } else {
-        // Create new service
+        // Create service
         return axiosInstance.post("/services", formData);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["services"]); // Refetch services after mutation
+      queryClient.invalidateQueries(["services"]); // Refetch services
       setCurrentService({ _id: null, title: "", paragraph: "", image: "" }); // Reset form
     },
   });
@@ -59,39 +57,39 @@ const EditServices = () => {
       return axiosInstance.delete(`/services/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["services"]); // Refetch services after deletion
+      queryClient.invalidateQueries(["services"]); // Refetch services
     },
   });
 
-  const handleEditClick = (service) => {
-    setCurrentService(service); // Load the selected service into the form
-  };
-
+  // Handle input changes
   const handleInputChange = (field, value) => {
-    setCurrentService((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setCurrentService((prev) => ({ ...prev, [field]: value }));
   };
 
+  // Handle image file change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setCurrentService((prev) => ({
-        ...prev,
-        image: file, // Storing the file for upload
-      }));
+      setCurrentService((prev) => ({ ...prev, image: file }));
     }
   };
 
+  // Save the current service
   const handleSave = () => {
     saveService.mutate(currentService);
   };
 
+  // Load selected service for editing
+  const handleEditClick = (service) => {
+    setCurrentService(service);
+  };
+
+  // Add new service
   const handleAddNew = () => {
     setCurrentService({ _id: null, title: "", paragraph: "", image: "" });
   };
 
+  // Delete a service
   const handleDelete = (id) => {
     deleteService.mutate(id);
   };
@@ -106,6 +104,7 @@ const EditServices = () => {
       <div className="flex-1 p-6">
         <h1 className="text-2xl font-semibold mb-6 text-center">Edit Services</h1>
 
+        {/* Services List */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold">All Services</h2>
@@ -126,8 +125,8 @@ const EditServices = () => {
                 <img
                   src={
                     service.image
-                      ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/${service.image}` // Prefix URL if image exists
-                      : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/images/default-image.jpg` // Default image if no image
+                      ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/${service.image}`
+                      : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/images/default-image.jpg`
                   }
                   alt={service.title}
                   className="w-full h-40 object-cover rounded mb-4"
@@ -151,6 +150,7 @@ const EditServices = () => {
           </div>
         </div>
 
+        {/* Edit or Add Service */}
         {currentService && (
           <div className="bg-[#1a1f1e] p-6 rounded shadow-lg">
             <h2 className="text-lg font-semibold mb-4">
@@ -185,9 +185,7 @@ const EditServices = () => {
                   src={
                     currentService.image instanceof File
                       ? URL.createObjectURL(currentService.image)
-                      : currentService.image.startsWith("http")
-                      ? currentService.image
-                      : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/${currentService.image}` // Handle URL and file display
+                      : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/${currentService.image}`
                   }
                   alt="Service"
                   className="w-full h-64 object-cover rounded mb-4"
