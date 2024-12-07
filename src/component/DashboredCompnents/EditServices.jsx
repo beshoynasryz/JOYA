@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { FaSave, FaEdit, FaPlusSquare } from "react-icons/fa";
 import Sidebar from "./SideBar";
-import axiosInstance from "../../axios";
+import axiosInstance from "../../axios"; // Axios instance
 
 const EditServices = () => {
   const queryClient = useQueryClient();
 
+  // State to hold the currently edited or new service
   const [currentService, setCurrentService] = useState({
     _id: null,
     title: "",
@@ -14,7 +15,7 @@ const EditServices = () => {
     image: "",
   });
 
-  // Fetch services
+  // Fetch all services
   const fetchServices = async () => {
     const response = await axiosInstance.get("/services");
     return response.data;
@@ -25,7 +26,7 @@ const EditServices = () => {
     queryFn: fetchServices,
   });
 
-  // Save service mutation
+  // Save a service (create or update)
   const saveService = useMutation({
     mutationFn: async (service) => {
       const formData = new FormData();
@@ -37,31 +38,35 @@ const EditServices = () => {
       }
 
       if (service._id) {
+        // Update service
         return axiosInstance.put(`/services/${service._id}`, formData);
       } else {
+        // Create service
         return axiosInstance.post("/services", formData);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["services"]);
-      setCurrentService({ _id: null, title: "", paragraph: "", image: "" });
+      queryClient.invalidateQueries(["services"]); // Refetch services
+      setCurrentService({ _id: null, title: "", paragraph: "", image: "" }); // Reset form
     },
   });
 
-  // Delete service mutation
+  // Delete a service
   const deleteService = useMutation({
     mutationFn: async (id) => {
       return axiosInstance.delete(`/services/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["services"]);
+      queryClient.invalidateQueries(["services"]); // Refetch services
     },
   });
 
+  // Handle input changes
   const handleInputChange = (field, value) => {
     setCurrentService((prev) => ({ ...prev, [field]: value }));
   };
 
+  // Handle image file change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -69,18 +74,22 @@ const EditServices = () => {
     }
   };
 
+  // Save the current service
   const handleSave = () => {
     saveService.mutate(currentService);
   };
 
+  // Load selected service for editing
   const handleEditClick = (service) => {
     setCurrentService(service);
   };
 
+  // Add new service
   const handleAddNew = () => {
     setCurrentService({ _id: null, title: "", paragraph: "", image: "" });
   };
 
+  // Delete a service
   const handleDelete = (id) => {
     deleteService.mutate(id);
   };
@@ -113,15 +122,15 @@ const EditServices = () => {
                 key={service._id}
                 className="bg-[#1a1f1e] p-4 rounded shadow-lg relative"
               >
-                {/* Image with fallback and cache-busting */}
                 <img
                   src={
                     service.image
                       ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${service.image}?v=${Date.now()}`
-                      : "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/images/default-image.jpg"
+                      : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/images/default-image.jpg`
                   }
                   alt={service.title}
                   className="w-full h-64 object-cover rounded mb-4"
+                  style={{ objectFit: "cover", maxHeight: "320px" }}
                 />
                 <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
                 <p className="text-sm text-gray-400 mb-4">{service.paragraph}</p>
@@ -154,7 +163,9 @@ const EditServices = () => {
                 <input
                   type="text"
                   value={currentService.title}
-                  onChange={(e) => handleInputChange("title", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("title", e.target.value)
+                  }
                   placeholder="Enter service title"
                   className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-[#3d6a64] mb-4"
                 />
@@ -175,7 +186,7 @@ const EditServices = () => {
                   src={
                     currentService.image instanceof File
                       ? URL.createObjectURL(currentService.image)
-                      : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${currentService.image}`
+                      : `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${currentService.image}?v=${Date.now()}`
                   }
                   alt="Service"
                   className="w-full h-64 object-cover rounded mb-4"
