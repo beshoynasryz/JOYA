@@ -1,149 +1,93 @@
 import React, { useEffect, useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import axios from "axios";
+import axiosInstance from "../../axios"; // Adjust the path as needed
 
 function Projects() {
-  const [offplan, setOffplan] = useState([]); // State to store off-plan projects
-  const [featuresCards, setFeaturesCards] = useState([]); // State to store feature cards
-  const [loading, setLoading] = useState(true); // State to manage loading status
+  const [properties, setProperties] = useState([]);
+  const [filteredProperties, setFilteredProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedType, setSelectedType] = useState("All");
 
-  // Fetch projects from APIs
+  // Fetch properties from backend
   useEffect(() => {
-    const fetchProjects = async () => {
+    const fetchProperties = async () => {
       try {
-        // Fetch off-plan projects
-        const offplanResponse = await axios.get("https://joya-back.onrender.com/offplan");
-        setOffplan(offplanResponse.data.data);
+        const response = await axiosInstance.get("/property");
+        setProperties(response.data || []);
+        setFilteredProperties(response.data || []); // Default: Show all properties
       } catch (error) {
-        console.error("Error fetching off-plan projects:", error);
-      }
-
-      try {
-        // Fetch features projects
-        const featuresResponse = await axios.get("https://joya-back.onrender.com/feature");
-        setFeaturesCards(featuresResponse.data.data);
-      } catch (error) {
-        console.error("Error fetching feature cards:", error);
+        console.error("Error fetching properties:", error);
+        setProperties([]);
+        setFilteredProperties([]);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
-
-    fetchProjects();
+    fetchProperties();
   }, []);
 
-  // Initialize AOS for animations
+  // Filter properties based on the selected type
   useEffect(() => {
-    AOS.init({
-      duration: 1200,
-      easing: "ease-in-out",
-      once: false,
-      mirror: true,
-    });
-  }, []);
-
-  // Helper function to truncate text
-  const truncateText = (text, maxLength) => {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
+    if (selectedType === "All") {
+      setFilteredProperties(properties); // Show all properties
+    } else {
+      // Normalize selectedType and property type to lowercase for case-insensitive comparison
+      setFilteredProperties(
+        properties.filter(
+          (property) => property.type && property.type.toLowerCase() === selectedType.toLowerCase()
+        )
+      );
     }
-    return text;
-  };
+  }, [selectedType, properties]);
 
-  const maxDescriptionLength = 120;
+  const handleTypeChange = (type) => {
+    setSelectedType(type); // Update selected type
+  };
 
   return (
     <div className="bg-[#111612] min-h-screen flex flex-col items-center pt-48 pb-12">
-      {/* Off Plan Section */}
-      <h2 className="text-5xl font-semibold text-white mb-14 mt-20" data-aos="fade-down">
-        Off Plan
-      </h2>
+      <h2 className="text-5xl font-semibold text-white mb-14 mt-20">Properties</h2>
+
+      {/* Filter Buttons */}
+      <div className="flex gap-4 mb-10">
+        {["All", "Offplan", "Feature", "Luxury"].map((type) => (
+          <button
+            key={type}
+            onClick={() => handleTypeChange(type)}
+            className={`px-6 py-2 rounded-full text-white ${
+              selectedType === type ? "bg-green-500" : "bg-gray-700 hover:bg-gray-600"
+            }`}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+
+      {/* Properties Section */}
       {loading ? (
         <p className="text-white text-xl">Loading...</p>
-      ) : offplan.length === 0 ? (
-        <p className="text-white text-xl">No off-plan projects available.</p>
+      ) : filteredProperties.length === 0 ? (
+        <p className="text-white text-xl">No properties available for this type.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-32">
-          {offplan.map((card, index) => (
-            <a
-              href={`/Projects/Off-Plan2/${card._id}`}
-              key={index}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-20">
+          {filteredProperties.map((property) => (
+            <div
+              key={property._id}
               className="bg-[#1c1e1b] rounded-lg shadow-lg p-6 text-center transform transition duration-300 hover:scale-105"
-              data-aos="fade-up"
-              data-aos-delay={`${index * 200}`}
             >
               <div className="overflow-hidden rounded-lg mb-6">
                 <img
-                  src={card?.imgSrcs?.[0] || "/default-image.jpg"}
-                  alt={card.title}
+                  src={property.imageProperty || "/default-image.jpg"} // Fallback image for missing images
+                  alt={property.description || "Property"}
                   className="w-full h-64 object-cover rounded-lg transform transition-transform duration-500 hover:scale-110"
                 />
               </div>
-              <h3 className="text-3xl font-semibold text-white mb-4">{card.title}</h3>
-              <p className="text-[#a0b3b1] text-base leading-relaxed">
-                {truncateText(card.description, maxDescriptionLength)}
-              </p>
-            </a>
+              <h3 className="text-3xl font-semibold text-white mb-4">{property.location || "Unnamed Property"}</h3>
+              <p className="text-[#a0b3b1] text-base leading-relaxed">{property.description || "No description available."}</p>
+              <p className="text-[#a0b3b1] text-base leading-relaxed mt-2">Price: {property.price || "N/A"}</p>
+            </div>
           ))}
         </div>
       )}
-
-      {/* Features Section */}
-      <h2 className="text-5xl font-semibold text-white mb-14" data-aos="fade-down">
-        Features
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-20">
-        {featuresCards.map((card, index) => (
-          <a
-            href={`/Projects/Features2/${card._id}`} // Dynamic link for features
-            key={index}
-            className="bg-[#1c1e1b] rounded-lg shadow-lg p-6 text-center transform transition duration-300 hover:scale-105"
-            data-aos="fade-up"
-            data-aos-delay={`${index * 200}`}
-          >
-            <div className="overflow-hidden rounded-lg mb-6">
-              <img
-                src={card.imgSrcs?.[0] || "/default-image.jpg"} // Fallback image
-                alt={card.title}
-                className="w-full h-64 object-cover rounded-lg transform transition-transform duration-500 hover:scale-110"
-              />
-            </div>
-            <h3 className="text-3xl font-semibold text-white mb-4">{card.title}</h3>
-            <p className="text-[#a0b3b1] text-base leading-relaxed">
-              {truncateText(card.description, maxDescriptionLength)}
-            </p>
-          </a>
-        ))}
-      </div>
-
-      {/* Luxury Section */}
-      <h2 className="text-5xl font-semibold text-white mb-14" data-aos="fade-down">
-        Luxury
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-20">
-        {featuresCards.map((card, index) => (
-          <a
-            href={`/Projects/Features2/${card._id}`} // Dynamic link for luxury
-            key={index}
-            className="bg-[#1c1e1b] rounded-lg shadow-lg p-6 text-center transform transition duration-300 hover:scale-105"
-            data-aos="fade-up"
-            data-aos-delay={`${index * 200}`}
-          >
-            <div className="overflow-hidden rounded-lg mb-6">
-              <img
-                src={card.imgSrcs?.[0] || "/default-image.jpg"} // Fallback image
-                alt={card.title}
-                className="w-full h-64 object-cover rounded-lg transform transition-transform duration-500 hover:scale-110"
-              />
-            </div>
-            <h3 className="text-3xl font-semibold text-white mb-4">{card.title}</h3>
-            <p className="text-[#a0b3b1] text-base leading-relaxed">
-              {truncateText(card.description, maxDescriptionLength)}
-            </p>
-          </a>
-        ))}
-      </div>
     </div>
   );
 }

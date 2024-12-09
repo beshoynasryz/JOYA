@@ -1,61 +1,82 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../component/DashboredCompnents/SideBar';
+import axiosInstance from '../axios'; // Your axiosInstance file for API calls
 
 const AddProperty = () => {
+  const navigate = useNavigate();
+
+  // State for all fields
   const [propertyType, setPropertyType] = useState('');
-  const [details, setDetails] = useState({
-    startingPrice: '',
-    bookingFees: '',
-    paymentPlan: '',
-    handoverDate: '',
-    numberOfBedrooms: ''
-  });
+  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
+  const [price, setPrice] = useState('');
+  const [beds, setBeds] = useState('');
+  const [bathrooms, setBathrooms] = useState('');
+  const [space, setSpace] = useState('');
+  const [paymentPlan, setPaymentPlan] = useState('');
+  const [locationDetails, setLocationDetails] = useState('');
+  const [startingPrice, setStartingPrice] = useState('');
+  const [bookingFees, setBookingFees] = useState('');
+  const [handoverDate, setHandoverDate] = useState('');
+  const [numberOfBedrooms, setNumberOfBedrooms] = useState('');
+  const [imageProperty, setImageProperty] = useState(null); // State for image
+  const [error, setError] = useState('');
 
-  const handlePropertyTypeChange = (event) => {
-    setPropertyType(event.target.value);
-  };
+  // Handlers
+  const handlePropertyTypeChange = (e) => setPropertyType(e.target.value);
+  const handleImageChange = (e) => setImageProperty(e.target.files[0]); // Image handler
 
-  const handleDetailChange = (key, value) => {
-    setDetails((prev) => ({ ...prev, [key]: value }));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('type', propertyType);
+    formData.append('imageProperty', imageProperty); // Append image
+    formData.append('description', description);
+    formData.append('location', location);
+    formData.append('price', price);
+    formData.append('beds', beds);
+    formData.append('bathrooms', bathrooms);
+    formData.append('space', space);
+    formData.append('paymentPlan', paymentPlan);
+    formData.append('locationDetails', locationDetails);
+    formData.append('startingPrice', startingPrice);
+    formData.append('bookingFees', bookingFees);
+    formData.append('handoverDate', handoverDate);
+    formData.append('numberOfBedrooms', numberOfBedrooms);
+
+    try {
+      const response = await axiosInstance.post('/property', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      if (response.status === 201) {
+        alert('Property added successfully!');
+        navigate('/properties');
+      } else {
+        setError('Failed to add property. Please try again.');
+      }
+    } catch (err) {
+      setError('Error submitting property. Please check your network.');
+    }
   };
 
   return (
     <div className="flex min-h-screen bg-[#111612] text-white">
-      {/* Sidebar on the Left */}
       <Sidebar />
 
-      {/* Main Content */}
       <div className="flex-1 p-6">
         <h1 className="text-2xl font-semibold mb-6 text-center">Add Property</h1>
 
-        {/* Search Bar and Dropdown */}
-        <div className="mb-6 flex gap-4">
-          <div className="flex-1">
-            <label className="block text-sm font-medium mb-2">Search For Properties</label>
-            <input
-              type="text"
-              placeholder="Search properties..."
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Filter By Type</label>
-            <select
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">All Types</option>
-              <option value="Residential">Residential</option>
-              <option value="Commercial">Commercial</option>
-              <option value="Industrial">Industrial</option>
-            </select>
-          </div>
-        </div>
+        {error && <div className="text-red-500 mb-4">{error}</div>}
 
-        {/* Property Type Selection */}
+        {/* Property Type */}
         <div className="mb-6">
           <h2 className="text-lg font-semibold mb-4">Choose Property Type</h2>
           <div className="flex items-center space-x-6">
-            {['Off Plan', 'Feature', 'Luxury'].map((type) => (
+            {['offplan', 'feature', 'luxury'].map((type) => (
               <label key={type} className="flex items-center">
                 <input
                   type="radio"
@@ -72,104 +93,80 @@ const AddProperty = () => {
         </div>
 
         {/* Image Upload */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">Property Image</label>
-            <div className="border border-dashed border-[#3d6a64] rounded p-4 text-center">
-              Drag & Drop or Upload
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Property Cover Image</label>
-            <div className="border border-dashed border-[#3d6a64] rounded p-4 text-center">
-              Drag & Drop or Upload
-            </div>
-          </div>
-        </div>
-
-        {/* Property Details */}
         <div className="mb-6">
-          <label className="block text-sm font-medium mb-2">Property Description</label>
-          <textarea
-            placeholder="Add a detailed description of the property..."
-            className="w-full p-4 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows="5"
+          <label className="block text-sm font-medium mb-2">Property Image</label>
+          <input
+            type="file"
+            onChange={handleImageChange}
+            accept="image/*"
+            className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Location and Price */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">Property Location</label>
-            <input
-              type="text"
-              placeholder="Palm Jumeirah, Dubai - Nakheel"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Price</label>
-            <input
-              type="number"
-              placeholder="30,000,000"
-              className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
-
-        {/* Beds, Bathrooms, and Space */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          {['Beds', 'Bathrooms', 'Space of Property'].map((field) => (
-            <div key={field}>
-              <label className="block text-sm font-medium mb-2">{field}</label>
-              <input
-                type="text"
-                placeholder={`Enter ${field}`}
-                className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Payment Plan and Location Details */}
-        {['Payment Plan of the Property', 'Location Details'].map((label) => (
+        {/* Text Inputs */}
+        {[
+          { label: 'Property Description', value: description, setter: setDescription, type: 'textarea' },
+          { label: 'Property Location', value: location, setter: setLocation },
+          { label: 'Price', value: price, setter: setPrice, type: 'number' },
+          { label: 'Beds', value: beds, setter: setBeds },
+          { label: 'Bathrooms', value: bathrooms, setter: setBathrooms },
+          { label: 'Space (sq ft)', value: space, setter: setSpace },
+          { label: 'Payment Plan', value: paymentPlan, setter: setPaymentPlan },
+          { label: 'Location Details', value: locationDetails, setter: setLocationDetails },
+          { label: 'Starting Price', value: startingPrice, setter: setStartingPrice },
+          { label: 'Booking Fees', value: bookingFees, setter: setBookingFees, type: 'number' },
+        ].map(({ label, value, setter, type = 'text' }) => (
           <div className="mb-6" key={label}>
             <label className="block text-sm font-medium mb-2">{label}</label>
-            <textarea
-              placeholder={`Add ${label.toLowerCase()}...`}
-              className="w-full p-4 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              rows="5"
-            />
+            {type === 'textarea' ? (
+              <textarea
+                placeholder={`Enter ${label.toLowerCase()}...`}
+                value={value}
+                onChange={(e) => setter(e.target.value)}
+                className="w-full p-4 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows="5"
+              />
+            ) : (
+              <input
+                type={type}
+                placeholder={`Enter ${label.toLowerCase()}`}
+                value={value}
+                onChange={(e) => setter(e.target.value)}
+                className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            )}
           </div>
         ))}
 
-        {/* Key-Value Details */}
+        {/* Number of Bedrooms */}
         <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-4">Add Details</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {[
-              { title: 'Starting Price', key: 'startingPrice' },
-              { title: 'Booking Fees', key: 'bookingFees' },
-              { title: 'Payment Plan', key: 'paymentPlan' },
-              { title: 'Handover Date', key: 'handoverDate' },
-              { title: 'Number of Bedrooms', key: 'numberOfBedrooms' }
-            ].map(({ title, key }) => (
-              <div key={key} className="flex justify-between items-center">
-                <label className="text-sm font-medium">{title}</label>
-                <input
-                  type="text"
-                  value={details[key]}
-                  onChange={(e) => handleDetailChange(key, e.target.value)}
-                  className="p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            ))}
-          </div>
+          <label className="block text-sm font-medium mb-2">Number of Bedrooms</label>
+          <input
+            type="number"
+            placeholder="Enter number of bedrooms"
+            value={numberOfBedrooms}
+            onChange={(e) => setNumberOfBedrooms(e.target.value)}
+            className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        {/* Handover Date */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2">Handover Date</label>
+          <input
+            type="date"
+            value={handoverDate}
+            onChange={(e) => setHandoverDate(e.target.value)}
+            className="w-full p-2 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
 
         {/* Submit Button */}
         <div className="mt-6 text-center">
-          <button className="bg-[#3d6a64] text-white px-6 py-2 rounded-md hover:bg-blue-600">
+          <button
+            onClick={handleSubmit}
+            className="bg-[#3d6a64] text-white px-6 py-2 rounded-md hover:bg-blue-600"
+          >
             Submit Property
           </button>
         </div>
