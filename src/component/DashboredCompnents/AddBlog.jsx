@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { FaSave } from "react-icons/fa"; // FontAwesome icons
-import { useNavigate } from "react-router-dom"; // For navigation
-import { useMutation } from '@tanstack/react-query';
-import axiosInstance from '../../axios'; // Make sure axiosInstance is imported
+import { FaSave } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "../../axios";
 import Sidebar from "./SideBar";
 
 const AddBlog = () => {
@@ -16,21 +16,35 @@ const AddBlog = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImage(URL.createObjectURL(file)); // Preview the image
+    setImage(file); // Keep the file itself for FormData
   };
 
-  // Mutation to handle blog creation
   const { mutate } = useMutation({
     mutationFn: async (newBlog) => {
-      const response = await axiosInstance.post("/blog", newBlog);
+      const formData = new FormData();
+      formData.append("title", newBlog.title);
+      formData.append("paragraph", newBlog.paragraph);
+      formData.append("author", newBlog.author);
+      formData.append("date", newBlog.date);
+      formData.append("link", newBlog.link);
+      if (newBlog.image) {
+        formData.append("image", newBlog.image); // Add the file to FormData
+      }
+
+      const response = await axiosInstance.post("/blog", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure the correct content type
+        },
+      });
+
       return response.data;
     },
     onSuccess: () => {
-      navigate("/blogs"); // Navigate to the blogs list after saving the blog
+      navigate("/blogs");
     },
     onError: (error) => {
       console.error("Error adding blog:", error);
-    }
+    },
   });
 
   const handleSaveBlog = () => {
@@ -118,7 +132,7 @@ const AddBlog = () => {
               onChange={handleImageChange}
               className="w-full text-[#3d6a64] mb-4"
             />
-            {image && <img src={image} alt="Preview" className="w-full h-40 object-cover rounded mb-4" />}
+            {image && <img src={URL.createObjectURL(image)} alt="Preview" className="w-full h-40 object-cover rounded mb-4" />}
           </div>
 
           {/* Save Button */}
