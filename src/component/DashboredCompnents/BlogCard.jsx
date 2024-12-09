@@ -2,7 +2,7 @@ import React from "react";
 import { FaEdit } from "react-icons/fa"; // FontAwesome icon for editing
 
 const BlogCard = ({ blog, onEdit }) => {
-  const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/";
+  const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
   const localbase = "http://localhost:5000"
 
   return (
