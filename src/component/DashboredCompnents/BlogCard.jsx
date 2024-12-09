@@ -2,6 +2,9 @@ import React from "react";
 import { FaEdit } from "react-icons/fa"; // FontAwesome icon for editing
 
 const BlogCard = ({ blog, onEdit }) => {
+  const baseURL = "https://joya-seven.vercel.app";
+  const localbase = "http://localhost:5000"
+
   return (
     <div className="bg-[#1a1f1e] p-6 rounded shadow-lg relative">
       {/* Edit Button */}
@@ -14,7 +17,7 @@ const BlogCard = ({ blog, onEdit }) => {
 
       {/* Blog Image */}
       <img
-        src={blog.image}
+        src={`${baseURL}${blog.image}`}
         alt={blog.title}
         className="w-full h-48 object-cover rounded mb-4"
       />

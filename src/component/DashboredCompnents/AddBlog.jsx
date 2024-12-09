@@ -16,7 +16,7 @@ const AddBlog = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImage(file); // Keep the file itself for FormData
+    setImage(file); // Store the file for FormData
   };
 
   const { mutate } = useMutation({
@@ -28,19 +28,20 @@ const AddBlog = () => {
       formData.append("date", newBlog.date);
       formData.append("link", newBlog.link);
       if (newBlog.image) {
-        formData.append("image", newBlog.image); // Add the file to FormData
+        formData.append("image", newBlog.image); // Add image to FormData
       }
 
+      // Axios POST with FormData
       const response = await axiosInstance.post("/blog", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // Ensure the correct content type
+          "Content-Type": "multipart/form-data",
         },
       });
 
       return response.data;
     },
     onSuccess: () => {
-      navigate("/blogs");
+      navigate("/blogs"); // Navigate to blogs list
     },
     onError: (error) => {
       console.error("Error adding blog:", error);
@@ -57,7 +58,7 @@ const AddBlog = () => {
       image,
     };
 
-    mutate(newBlog); // Trigger the mutation to add the blog
+    mutate(newBlog); // Trigger mutation
   };
 
   return (
