@@ -1,5 +1,5 @@
 import React from "react";
-import image5 from "../../images/sliders/1920x1080.jpg";
+import image5 from "../../images/List-and-offplan 100x667/5.png";
 
 const Presentation = () => {
   //no problem
