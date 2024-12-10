@@ -26,7 +26,7 @@ const Presentation = () => {
           <div className="w-full lg:w-1/2 px-4">
             <div className="relative group">
               <img
-                src='/images/home/home.jpg'
+                src='../../images/home/home.jpg'
                 alt="joya properties"
                 className="rounded-lg shadow-lg transition-transform transform group-hover:scale-105 w-full"
                 style={{ maxHeight: '855px' }}
