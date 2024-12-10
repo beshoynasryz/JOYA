@@ -76,7 +76,7 @@ const Footer = () => {
             <p className="text-base text-[#f0ede6]/80 mb-1">
               Map URL:{" "}
               <a href={data?.mapUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400">
-                {data?.mapUrl || "No map URL"}
+               View Map
               </a>
             </p>
             
