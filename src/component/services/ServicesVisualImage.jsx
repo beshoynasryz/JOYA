@@ -1,5 +1,5 @@
 import React from "react";
-import image1 from "../../images/sliders/3840x2400.jpg";
+import image1 from "../../images/List-and-offplan 100x667/5.png";
 
 const ServicesVisualImage = () => {
   return (

@@ -44,10 +44,10 @@ const ServiceCardsSection = () => {
               whileHover="hover"
               variants={cardVariants} // Applies the scaling effect to the card
             >
-              <div className="icon-section flex flex-col justify-center items-center bg-[#1b1f1d] h-[300px] rounded-lg transition-transform transform duration-500">
+              <div className="icon-section flex flex-col justify-center items-center bg-[#1b1f1d] h-[300px]  transition-transform transform duration-500">
                 {/* Image Section */}
                 <motion.div
-                  className="w-24 h-24 rounded-full flex items-center justify-center bg-[#333a36] overflow-hidden"
+                  className="w-24 h-24  flex items-center justify-center  overflow-hidden"
                   variants={iconVariants} // Rotate only the hovered card’s image
                 >
                   <img
