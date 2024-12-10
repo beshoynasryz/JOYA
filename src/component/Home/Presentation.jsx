@@ -1,5 +1,5 @@
 import React from "react";
-import image5 from "../../images/home/WhatsApp Image 2024-11-15 at 08.34.21_11b356d2.jpg";
+import image5 from "../../images/home/home.jpg";
 
 const Presentation = () => {
   //no problem
