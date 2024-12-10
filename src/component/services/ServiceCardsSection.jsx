@@ -6,7 +6,7 @@ import axiosInstance from "../../axios"; // Axios instance
 const ServiceCardsSection = () => {
   // Fetch services using React Query
   const { data: services = [], isLoading, isError, error } = useQuery({
-    queryKey: ['services'],
+    queryKey: ["services"],
     queryFn: async () => {
       const response = await axiosInstance.get("/services"); // Replace with your endpoint
       return response.data;
@@ -34,7 +34,7 @@ const ServiceCardsSection = () => {
     <div className="landing-card-wrapper py-12 bg-[#111612]">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <motion.div
               key={service._id} // Use _id as the key for better React performance
               className="card-item group"
@@ -44,20 +44,20 @@ const ServiceCardsSection = () => {
               whileHover="hover"
               variants={cardVariants} // Applies the scaling effect to the card
             >
-              <div className="icon-section flex flex-col justify-center items-center bg-[#1b1f1d] h-[260px] rounded-lg transition-transform transform duration-500">
+              <div className="icon-section flex flex-col justify-center items-center bg-[#1b1f1d] h-[300px] rounded-lg transition-transform transform duration-500">
                 {/* Image Section */}
                 <motion.div
-                  className="w-full h-40"
+                  className="w-24 h-24 rounded-full flex items-center justify-center bg-[#333a36] overflow-hidden"
                   variants={iconVariants} // Rotate only the hovered card’s image
                 >
                   <img
                     src={`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${service.image}`} // Use the full image URL
                     alt={service.title}
-                    className="w-full h-full object-cover rounded"
+                    className="w-full h-full object-contain"
                   />
                 </motion.div>
                 {/* Service Title */}
-                <h3 className="text-lg mt-4 text-center text-[#faf8f7] font-semibold group-hover:text-[#3d6a64] transition-colors duration-300">
+                <h3 className="text-lg mt-6 text-center text-[#faf8f7] font-semibold group-hover:text-[#3d6a64] transition-colors duration-300">
                   {service.title}
                 </h3>
                 {/* Service Paragraph */}
