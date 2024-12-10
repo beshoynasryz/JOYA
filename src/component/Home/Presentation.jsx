@@ -2,6 +2,7 @@ import React from "react";
 import image5 from "../../images/home/WhatsApp Image 2024-11-15 at 08.34.21_11b356d2.jpg";
 
 const Presentation = () => {
+  //no problem
   return (
     <section className="text-[#EFECE6] py-16 bg-[#111612]">
       <div className="container mx-auto px-6 lg:px-12">
