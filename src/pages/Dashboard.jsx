@@ -51,7 +51,7 @@ function PropertiesPage() {
 
     return matchesSearch && matchesType;
   });
-  const localbase = "http://localhost:5000"
+  const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
 
   return (
     <div className="flex min-h-screen bg-[#111612] text-white">
@@ -97,8 +97,8 @@ function PropertiesPage() {
             filteredProperties.map((property) => (
               <div key={property._id} className="bg-[#1a1f1e] rounded-lg shadow-md overflow-hidden">
                 <img
-                  src={property.imageProperty} // Fallback image if imageProperty is null
-                  alt={property.location} // Use location or other field as alt text
+                  src={`${baseURL}${property.imageProperty}`} 
+                  alt={property.location} 
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">

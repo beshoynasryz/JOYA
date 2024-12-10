@@ -29,7 +29,7 @@ const deleteTeamMember = async (memberId) => {
 };
 
 const Team = () => {
-  const baseUrlImage = "http://localhost:5000"; // Base URL
+ 
   const [newMember, setNewMember] = useState({
     name: "",
     position: "",
@@ -121,7 +121,7 @@ const Team = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching team members</div>;
-
+  const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
   return (
     <div className="flex min-h-screen bg-[#111612] text-white">
       <Sidebar />
@@ -181,7 +181,7 @@ const Team = () => {
           <div key={member._id} className="relative grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 bg-[#1a1f1e] p-6 rounded shadow-lg">
             <div className="flex justify-center items-center mb-6 md:mb-0">
               <img
-                src={`${baseUrlImage}${member.image}`}
+                src={`${baseURL}${member.image}`}
                 alt="Team Member"
                 className="rounded-full w-52 h-52 object-cover"
               />

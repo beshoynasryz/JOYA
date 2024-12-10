@@ -42,6 +42,7 @@ function Projects() {
   const handleTypeChange = (type) => {
     setSelectedType(type); // Update selected type
   };
+  const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
 
   return (
     <div className="bg-[#111612] min-h-screen flex flex-col items-center pt-48 pb-12">
@@ -76,7 +77,7 @@ function Projects() {
             >
               <div className="overflow-hidden rounded-lg mb-6">
                 <img
-                  src={property.imageProperty || "/default-image.jpg"} // Fallback image for missing images
+                  src={`${baseURL}${property.imageProperty}`}
                   alt={property.description || "Property"}
                   className="w-full h-64 object-cover rounded-lg transform transition-transform duration-500 hover:scale-110"
                 />

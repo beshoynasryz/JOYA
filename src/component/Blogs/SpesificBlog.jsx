@@ -17,7 +17,7 @@ const SpecificBlog = () => {
     queryFn: () => fetchBlogById(id),
     enabled: !!id, // Only run the query if `id` is available
   });
-
+  const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
   return (
     <div style={{ backgroundColor: '#041d1a', padding: '20px', minHeight: '100vh' }}>
       <div
@@ -92,7 +92,7 @@ const SpecificBlog = () => {
           <div>Loading...</div>
         ) : blog?.image ? (
           <img
-            src={blog.image}
+          src={`${baseURL}${blog.image}`}
             alt={blog.title}
             style={{ width: '100%', height: 'auto', borderRadius: '10px' }}
           />

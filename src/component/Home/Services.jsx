@@ -14,7 +14,7 @@ const Services = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error.message}</div>;
-
+  const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
   return (
     <section className="py-16 text-[#EFECE6] mt-10">
       <div className="container mx-auto px-6 lg:px-12">
@@ -33,7 +33,7 @@ const Services = () => {
               <div className="w-20 h-20 mx-auto bg-[#3d6a64] rounded-full flex items-center justify-center mb-8 group-hover:bg-opacity-90 transition duration-300">
                 {/* Use a fallback for images if needed */}
                 <img
-                  src={`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${service.image}`} // Use the full image URL
+                  src={`${baseURL}${service.image}`} // Use the full image URL
                   alt={service.title}
                   className="w-12 h-12"
                 />

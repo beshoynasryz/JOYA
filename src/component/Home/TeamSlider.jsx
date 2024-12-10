@@ -20,7 +20,7 @@ const TeamSlider = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading team members</div>;
-
+  const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
   return (
     <section className="py-16 bg-black text-[#EFECE6] flex items-center justify-center min-h-screen">
       <div className="container mx-auto px-6 lg:px-12 text-center">
@@ -56,7 +56,7 @@ const TeamSlider = () => {
             <SwiperSlide key={member._id}>
               <div className="relative group overflow-hidden rounded-lg bg-[#111111] mx-auto p-4 max-w-xs">
                 <img
-                  src={member.image} // Ensure your API includes a full path or prefix the base URL
+                  src={`${baseURL}${member.image}`} // Ensure your API includes a full path or prefix the base URL
                   alt={member.name || "Team Member"}
                   className="w-full h-[250px] object-cover object-top rounded-t-lg transition-transform duration-500 group-hover:scale-105 grayscale hover:grayscale-0"
                 />

@@ -22,7 +22,7 @@ const Blog = () => {
 
   // Log the blogs data to debug
   console.log("Blogs Data:", blogs);
-
+  const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
   return (
     <div className="bg-[#111612] text-white">
       {/* Hero Section */}
@@ -56,7 +56,8 @@ const Blog = () => {
                 {/* Image Section */}
                 <div className="w-full md:w-1/3 relative">
                   <img
-                    src={blog.image || "https://via.placeholder.com/300"} // Fallback image if `image` is null
+                    src={`${baseURL}${blog.image}`}
+                     // Fallback image if `image` is null
                     alt={blog.title || "No Title"} // Use fallback title if `title` is null
                     className="w-full h-full object-cover"
                   />
