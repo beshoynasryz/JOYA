@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useMutation } from "@tanstack/react-query"; // React Query's useMutation
 import axiosInstance from "../axios"; // Import the Axios instance
-import logo from "../logo.svg"; // Logo image
+import logo from "./logo.svg"; // Logo image
 
 const LoginComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -59,7 +59,7 @@ const LoginComponent = () => {
             htmlFor="email"
             className="block text-sm text-[#9da5a4] mb-2 tracking-wide"
           >
-            Email
+           User name
           </label>
           <input
             type="email"
