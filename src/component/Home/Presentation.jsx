@@ -1,5 +1,5 @@
 import React from "react";
-import image5 from "../../images/home/home.jpg";
+import image5 from "../../images/sliders/1920x1080.jpg";
 
 const Presentation = () => {
   //no problem
@@ -26,7 +26,7 @@ const Presentation = () => {
           <div className="w-full lg:w-1/2 px-4">
             <div className="relative group">
               <img
-                src='../../images/home/home.jpg'
+                src={image5}
                 alt="joya properties"
                 className="rounded-lg shadow-lg transition-transform transform group-hover:scale-105 w-full"
                 style={{ maxHeight: '855px' }}
