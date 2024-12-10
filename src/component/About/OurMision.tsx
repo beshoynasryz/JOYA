@@ -1,4 +1,5 @@
 import React from "react";
+import image1 from "../../images/List-and-offplan 100x667/2.png";
 
 const OurMission = () => {
   return (
@@ -27,7 +28,7 @@ const OurMission = () => {
       {/* Image Section */}
       <div>
         <img
-          src="/about us/WhatsApp Image 2024-11-05 at 03.22.24_3ebccb90.jpg"
+          src={image1}
           alt="Aerial View of Dubai"
           className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
         />

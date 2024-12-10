@@ -1,4 +1,5 @@
 import React from "react";
+import image1 from "../../images/List-and-offplan 100x667/3.png";
 
 const OurVision = () => {
   console.log("Our Vision Component Rendered");
@@ -29,7 +30,7 @@ const OurVision = () => {
       {/* Image Section */}
       <div>
         <img
-          src="/about us/WhatsApp Image 2024-11-05 at 03.21.07_ea713e2f.jpg"
+          src={image1}
           alt="Joya Vision"
           className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
         />
