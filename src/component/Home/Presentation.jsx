@@ -1,5 +1,5 @@
 import React from "react";
-import image5 from "../../images/home/home.jpg";
+import image1 from "../../images/sliders/3.jpg";
 
 const Presentation = () => {
   //no problem
