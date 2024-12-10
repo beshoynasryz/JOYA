@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useMutation } from "@tanstack/react-query"; // React Query's useMutation
 import axiosInstance from "../axios"; // Import the Axios instance
-import logo from "../logo.png"; // Logo image
+import logo from "../logo.svg"; // Logo image
 
 const LoginComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -64,7 +64,7 @@ const LoginComponent = () => {
           <input
             type="email"
             id="email"
-            placeholder="Enter your email"
+            placeholder="Enter your user name"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full bg-[#0e1414] border-none rounded-full h-12 px-4 text-[#EFECE6] placeholder-[#9da5a4] focus:outline-none"
