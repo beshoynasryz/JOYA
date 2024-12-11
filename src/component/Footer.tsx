@@ -103,16 +103,16 @@ const Footer = () => {
 
           {/* Map Section */}
           <div className="flex flex-col items-center lg:items-start">
-            <iframe
-              src={`https://www.google.com/maps/embed?pb=${data?.mapUrl || ""}`}
-              width="280"
-              height="200"
-              style={{ border: 0 }}
-              allowFullScreen=""
-              loading="lazy"
-              className="rounded-lg mb-2"
-            ></iframe>
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3607.974367987845!2d55.2693273153665!3d25.18840738389598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f682d1ff90fe7%3A0x14375ae978cdf590!2sPrime%20Tower%20-%20Business%20Bay%20-%20Dubai!5e0!3m2!1sen!2sae!4v1698342856565!5m2!1sen!2sae"
+    width="280"
+    height="200"
+    style={{ border: 0 }}
+    loading="lazy"
+    className="rounded-lg mb-2"
+  ></iframe>
           </div>
+
         </div>
 
         {/* Divider Line & Copyright */}
