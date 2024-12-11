@@ -1,8 +1,30 @@
-import React from "react";
-import image5 from "../../images/List-and-offplan 100x667/5.png";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Presentation = () => {
-  //no problem
+  const [data, setData] = useState(null); // Updated to handle single object
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/secondsection"
+        );
+        if (response.data && response.data.length > 0) {
+          setData(response.data[0]); // Assuming you want the first object in the array
+        } else {
+          setError("No data available.");
+        }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError("Failed to fetch data. Please try again.");
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <section className="text-[#EFECE6] py-16 bg-[#111612]">
       <div className="container mx-auto px-6 lg:px-12">
@@ -10,30 +32,40 @@ const Presentation = () => {
           {/* Left Column - Text */}
           <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
             <div className="space-y-8">
-              <h6 className="text-5xl md:text-6xl font-bold leading-tight text-[#EFECE6]">
-              Step into a World 
-                <br />
-                of Bespoke Living
-              </h6>
-              <div className="w-24 h-1 bg-gradient-to-r from-[#3d6a64] to-[#698f8c] rounded-full"></div>
-              <p className="text-lg leading-relaxed text-[#EFECE6]">
-              At Joya Properties, we specialize in curating an exceptional real estate experience that goes beyond transactions. Our dedicated team connects you with Dubai’s most sought-after properties, offering personalized service and market expertise. Committed to empowering you with tailored solutions that reflect your aspirations, we ensure each property journey is fulfilling and seamless. Explore a world of bespoke properties crafted with care, where each home tells a story. Your journey with Joya Properties begins here, guided by integrity, excellence, and client-centric service. </p>
-            
+              {error ? (
+                <p className="text-red-500">{error}</p>
+              ) : data ? (
+                <>
+                  <h6 className="text-5xl md:text-6xl font-bold leading-tight text-[#EFECE6]">
+                    {data.title}
+                  </h6>
+                  <div className="w-24 h-1 bg-gradient-to-r from-[#3d6a64] to-[#698f8c] rounded-full"></div>
+                  <p
+                    className="text-lg leading-relaxed text-[#EFECE6]"
+                    dangerouslySetInnerHTML={{
+                      __html: data.paragraph.replace(/\u003C\/?p\u003E/g, ""),
+                    }}
+                  ></p>
+                </>
+              ) : (
+                <p>Loading...</p>
+              )}
             </div>
           </div>
 
           {/* Right Column - Image & Call to Action */}
           <div className="w-full lg:w-1/2 px-4">
             <div className="relative group">
-              <img
-                src={image5}
-                alt="joya properties"
-                className="rounded-lg shadow-lg transition-transform transform group-hover:scale-105 w-full"
-                style={{ maxHeight: '855px' }}
-              />
-              <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-[#404740]/90 to-transparent rounded-b-lg">
-               
-              </div>
+              {data && data.image ? (
+                <img
+                  src={` https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${data.image}`}
+                  alt="Presentation"
+                  className="rounded-lg shadow-lg transition-transform transform group-hover:scale-105 w-full"
+                  style={{ maxHeight: "855px" }}
+                />
+              ) : (
+                <div className="rounded-lg bg-gray-700 w-full h-[855px]"></div>
+              )}
             </div>
           </div>
         </div>

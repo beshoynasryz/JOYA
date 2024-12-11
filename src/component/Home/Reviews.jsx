@@ -1,83 +1,98 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { FreeMode, Pagination } from "swiper/modules";
 import './reviews.css';
+import axios from "axios";
 
-const reviews = [
-  {
-    name: "Mark Baxter",
-    initials: "MB",
-    rating: 5,
-    review:
-      "Our estate agent was excellent from start to finish. So helpful and attentive. His name was Nabeel, and we couldn’t do enough for him to show how grateful we are. He is an asset to his company.",
-  },
-  {
-    name: "Karine Ugarte",
-    initials: "KU",
-    rating: 5,
-    review: "Best service ever with Nabilios!",
-  },
-  {
-    name: "Daria Derbasova",
-    initials: "DD",
-    rating: 5,
-    review:
-      "Nabeel Hammudeh was our agent for 2 deals; everything went perfectly smooth! Always very professional, great follow-ups, attention to detail and excellent relationship maintenance with the clients and seller. I would recommend it to my friends.",
-  },
-  {
-    name: "Sena Yesil",
-    initials: "SY",
-    rating: 5,
-    review:
-      "I got great support from Nabeel when I was looking for an apartment to buy. He has played the role of an advisor instead of a seller. He has followed up constantly and shared his in-depth expertise in the real estate market.",
-  },
-  {
-    name: "Neira Milavica",
-    initials: "NM",
-    rating: 5,
-    review:
-      "Very reliable and efficient service. We had the luck to get Mr. Nabeel as our agent. 24/7 availability for all questions and information. Well organized process and without any unnecessary steps. Highly recommend.",
-  },
-  {
-    name: "Stephanie Haakman",
-    initials: "SH",
-    rating: 5,
-    review:
-      "Since I arrived in Dubai, I’ve visited many apartments with Nabilios. He went above and beyond to find options that I would like. He provided valuable feedback on each apartment we saw (ROI, rental prices, etc.).",
-  },
-  {
-    name: "Amany Mohey",
-    initials: "AM",
-    rating: 5,
-    review:
-      "My experience in dealing with fäm was through the broker Mr. Nabeel, who was extremely professional and credible without a doubt. I genuinely thank him for this outstanding work.",
-  },
-  {
-    name: "Amancio Torres",
-    initials: "AT",
-    rating: 5,
-    review: "Nabeel is a great professional and a person who cares.",
-  },
-  {
-    name: "Seema Sekharan",
-    initials: "SS",
-    rating: 5,
-    review:
-      "Thanks a lot, Nabeel, for all help, really appreciate it. Very professional and unbelievable response time. We would love to work with you again in the future.",
-  },
-  {
-    name: "Daniel C.",
-    initials: "DC",
-    rating: 5,
-    review:
-      "Nabeel is one of the best real estate agents that I’ve met. He’s one of the few that are fully transparent, honest, and always helps me at any part of the buying/selling process. Thank you!",
-  },
-];
+// const reviews = [
+//   {
+//     name: "Mark Baxter",
+//     initials: "MB",
+//     rating: 5,
+//     review:
+//       "Our estate agent was excellent from start to finish. So helpful and attentive. His name was Nabeel, and we couldn’t do enough for him to show how grateful we are. He is an asset to his company.",
+//   },
+//   {
+//     name: "Karine Ugarte",
+//     initials: "KU",
+//     rating: 5,
+//     review: "Best service ever with Nabilios!",
+//   },
+//   {
+//     name: "Daria Derbasova",
+//     initials: "DD",
+//     rating: 5,
+//     review:
+//       "Nabeel Hammudeh was our agent for 2 deals; everything went perfectly smooth! Always very professional, great follow-ups, attention to detail and excellent relationship maintenance with the clients and seller. I would recommend it to my friends.",
+//   },
+//   {
+//     name: "Sena Yesil",
+//     initials: "SY",
+//     rating: 5,
+//     review:
+//       "I got great support from Nabeel when I was looking for an apartment to buy. He has played the role of an advisor instead of a seller. He has followed up constantly and shared his in-depth expertise in the real estate market.",
+//   },
+//   {
+//     name: "Neira Milavica",
+//     initials: "NM",
+//     rating: 5,
+//     review:
+//       "Very reliable and efficient service. We had the luck to get Mr. Nabeel as our agent. 24/7 availability for all questions and information. Well organized process and without any unnecessary steps. Highly recommend.",
+//   },
+//   {
+//     name: "Stephanie Haakman",
+//     initials: "SH",
+//     rating: 5,
+//     review:
+//       "Since I arrived in Dubai, I’ve visited many apartments with Nabilios. He went above and beyond to find options that I would like. He provided valuable feedback on each apartment we saw (ROI, rental prices, etc.).",
+//   },
+//   {
+//     name: "Amany Mohey",
+//     initials: "AM",
+//     rating: 5,
+//     review:
+//       "My experience in dealing with fäm was through the broker Mr. Nabeel, who was extremely professional and credible without a doubt. I genuinely thank him for this outstanding work.",
+//   },
+//   {
+//     name: "Amancio Torres",
+//     initials: "AT",
+//     rating: 5,
+//     review: "Nabeel is a great professional and a person who cares.",
+//   },
+//   {
+//     name: "Seema Sekharan",
+//     initials: "SS",
+//     rating: 5,
+//     review:
+//       "Thanks a lot, Nabeel, for all help, really appreciate it. Very professional and unbelievable response time. We would love to work with you again in the future.",
+//   },
+//   {
+//     name: "Daniel C.",
+//     initials: "DC",
+//     rating: 5,
+//     review:
+//       "Nabeel is one of the best real estate agents that I’ve met. He’s one of the few that are fully transparent, honest, and always helps me at any part of the buying/selling process. Thank you!",
+//   },
+// ];
 
 function Reviews() {
+    const [reviews,setreviews] =useState([]);
+    useEffect(() => {
+      axios.get('https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/testimonial')
+        .then(response => {
+          setreviews(response.data); 
+        })
+        .catch(err => {
+          setreviews(err.message); // Handle errors
+       
+        });
+    }, []);
+
+    console.log(reviews)
+    
   return (
     <section className="py-16 bg-[#111612] text-[#f1f0ec] mt-10">
       <div className="container mx-auto px-6 lg:px-12">
@@ -107,12 +122,12 @@ function Reviews() {
 
                 {/* Client Name */}
                 <h3 className="text-2xl font-bold text-center mb-2 text-[#f0ede6]">
-                  {review.name}
+                  {review.nameOfUser}
                 </h3>
 
                 {/* Rating */}
                 <div className="flex justify-center mb-4">
-                  {[...Array(review.rating)].map((_, i) => (
+                  {[...Array(review.rate)].map((_, i) => (
                     <Star
                       key={i}
                       className="text-[#f0ede6]"
@@ -125,7 +140,7 @@ function Reviews() {
                 {/* Review Text with White Quotes */}
                 <p className="text-lg text-center text-[#faf8f7]">
                   <span className="text-white">“</span>
-                  {review.review}
+                  {review.comment}
                   <span className="text-white">”</span>
                 </p>
               </div>

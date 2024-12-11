@@ -40,6 +40,46 @@ function App() {
         <Route path="/Projects" element={<Layout><Projects /></Layout>} />
         <Route path="/Blog" element={<Layout><Blog /></Layout>} />
         <Route path="/SpecificBlog/:id" element={<Layout><SpecificBlog /></Layout>} />
+        <Route
+          path="/Projects/Features"
+          element={
+            <Layout>
+              <Features />
+            </Layout>
+          }
+        />
+             <Route
+          path="/Projects/Features2/:id"
+          element={
+            <Layout>
+              <Features2 />
+            </Layout>
+          }
+        />
+        <Route
+          path="/Projects/Off-Plan"
+          element={
+            <Layout>
+              <OffPlan />
+            </Layout>
+          }
+        />
+        <Route
+          path="/Projects/Off-Plan2/:id"
+          element={
+            <Layout>
+              <OffPlan2 />
+            </Layout>
+          }
+        />
+        <Route
+          path="/Projects/Luxury"
+          element={
+            <Layout>
+              <Luxury />
+            </Layout>
+          }
+        />
         <Route path="/login" element={<LoginComponent />} />
         <Route path="/email" element={<EmailInputScreen />} />
 
