@@ -8,7 +8,7 @@ const ServicesVisualImage = () => {
     <div
       className="hidden md:block absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url(${image1})`,
+        backgroundImage: `url(https://res.cloudinary.com/dp5bcywc7/image/upload/v1733894960/WhatsApp_Image_2024-12-11_at_06.31.29_1d60626a_oahy2e.jpg)`,
       }}
     ></div>
 
@@ -16,7 +16,7 @@ const ServicesVisualImage = () => {
     <div
       className="md:hidden absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url(${image1})`,
+        backgroundImage: `url(https://res.cloudinary.com/dp5bcywc7/image/upload/v1733894960/WhatsApp_Image_2024-12-11_at_06.31.29_1d60626a_oahy2e.jpg)`,
       }}
     ></div>
 
