@@ -1,38 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const OurValues = () => {
-  const values = [
-    {
-      title: "INTEGRITY",
-      content:
-        "We act with honesty and transparency in all our dealings, ensuring trust and loyalty from clients and partners.",
-    },
-    {
-      title: "EXCELLENCE",
-      content:
-        "We strive for the highest standards in every transaction, with attention to detail and a commitment to quality service.",
-    },
-    {
-      title: "EMPOWERMENT",
-      content:
-        "We believe in empowering both our clients and team members to achieve financial freedom and personal growth by providing the tools, knowledge, and support they need to succeed.",
-    },
-    {
-      title: "CLIENT-CENTRIC",
-      content:
-        "We focus on understanding and fulfilling our clients' unique needs, creating tailored solutions for their real estate aspirations.",
-    },
-    {
-      title: "INNOVATION",
-      content:
-        "We stay ahead of market trends and embrace technology to offer a competitive edge in both client service and team operations.",
-    },
-    {
-      title: "LONG-TERM RELATIONSHIPS",
-      content:
-        "We believe in building lasting relationships with clients, partners, and team members, ensuring mutual growth and loyalty.",
-    },
-  ];
+  // State to store the fetched values
+  const [values, setValues] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch data from the API on component mount
+  useEffect(() => {
+    const fetchValues = async () => {
+      try {
+        // Replace the URL with your actual API endpoint
+        const response = await axios.get("https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/values");
+        setValues(response.data);
+        setLoading(false);
+      } catch (err) {
+       
+        setLoading(false);
+      }
+    };
+
+    fetchValues();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center text-[#a0b3b1]">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-[#ff0000]">{error}</div>;
+  }
 
   return (
     <div className="bg-[#041d1a] py-16">
@@ -46,7 +44,7 @@ const OurValues = () => {
         </h1>
       </div>
 
-      {/* Table-Like Layout */}
+      {/* Card-like Layout */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 px-6">
         {values.map((value, index) => (
           <div

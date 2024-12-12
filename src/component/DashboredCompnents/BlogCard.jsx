@@ -1,7 +1,8 @@
 import React from "react";
 import { FaEdit } from "react-icons/fa"; // FontAwesome icon for editing
+import { FaTrash } from "react-icons/fa"; // FontAwesome icon for editing
 
-const BlogCard = ({ blog, onEdit }) => {
+const BlogCard = ({ blog, onEdit ,onDelete}) => {
   const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
   const localbase = "http://localhost:5000"
 
@@ -13,6 +14,12 @@ const BlogCard = ({ blog, onEdit }) => {
         className="absolute top-2 right-2 bg-[#3d6a64] text-white p-2 rounded-full hover:bg-[#3d6a64]"
       >
         <FaEdit size={20} />
+      </button>
+      <button
+        onClick={() => onDelete(blog._id)} // Trigger the edit functionality (using blog._id)
+        className="absolute top-2 left-2 bg-[#812a2a] text-white p-2 rounded-full hover:bg-[#ff3a3a]"
+      >
+        <FaTrash size={20} />
       </button>
 
       {/* Blog Image */}

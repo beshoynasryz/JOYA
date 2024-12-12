@@ -1,11 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const KeyStats = () => {
-  const stats = [
-    { value: "6 years", label: "Over 6 years of combined experience " },
-    { value: "86", label: "Sold and Leased properties" },
-    { value: "2024", label: "Year Established" },
-  ];
+  const [stats, setStats] = useState([]); // State to hold the fetched data
+  const [loading, setLoading] = useState(true); // State to track loading status
+
+  const baseUrl = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/keystats"; // Your API URL
+
+  // Fetch the stats data from the API on component mount
+  useEffect(() => {
+    const fetchKeyStats = async () => {
+      try {
+        const response = await axios.get(baseUrl);
+        setStats(response.data); // Set the fetched data to the state
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched
+      }
+    };
+
+    fetchKeyStats();
+  }, []);
+
+  // If data is still loading, show a loading message
+  if (loading) {
+    return (
+      <div className="mx-4 md:mx-8 lg:mx-24 my-14 text-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-4 md:mx-8 lg:mx-24 my-14">

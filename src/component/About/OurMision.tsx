@@ -1,7 +1,39 @@
-import React from "react";
-import image1 from "../../images/List-and-offplan 100x667/2.png";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const OurMission = () => {
+  const [mission, setMission] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const missionId = "675aa6326ff9292f28bbbb9c"; // Specific ID for fetching mission data
+
+  useEffect(() => {
+    const fetchMission = async () => {
+      try {
+        // Replace this URL with your actual API endpoint for fetching mission by ID
+        const response = await axios.get(`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/hero-sections/${missionId}`);
+        setMission(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError("Error fetching mission data");
+        setLoading(false);
+      }
+    };
+
+    fetchMission();
+  }, [missionId]);
+
+  if (loading) {
+    return <div className="text-center text-[#a0b3b1]">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-[#ff0000]">{error}</div>;
+  }
+
+  const baseurl = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app"; // Set base URL for images
+
   return (
     <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-2 w-full">
       {/* Text Section */}
@@ -9,18 +41,11 @@ const OurMission = () => {
         <div className="mx-2 md:mx-4 md:my-auto lg:mx-20 lg:my-auto">
           <div className="mb-2 lg:mb-10">
             <h1 className="text-2xl lg:text-5xl text-[#f0ede6] font-bold">
-              Our Mission
+              {mission ? mission.title : "Our Mission"}
             </h1>
           </div>
           <p className="text-sm lg:text-lg font-serif text-[#f1f0ec] whitespace-pre-wrap leading-relaxed">
-            Joya Properties aims to transform the real estate experience by
-            providing personalized service that empowers clients to make
-            confident financial decisions. In the short term, the focus is on
-            building trust through bespoke solutions and fostering a
-            collaborative, growth-driven team culture. Long term, the goal is to
-            be globally recognized for creating lasting relationships and
-            financial security for both clients and team members, ensuring
-            shared success and loyalty.
+            {mission ? mission.paragraph : "Mission content is loading..."}
           </p>
         </div>
       </div>
@@ -28,8 +53,8 @@ const OurMission = () => {
       {/* Image Section */}
       <div>
         <img
-          src={image1}
-          alt="Aerial View of Dubai"
+          src={mission ? `${baseurl}${mission.image}` : ""}
+          alt="Mission Image"
           className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
         />
       </div>

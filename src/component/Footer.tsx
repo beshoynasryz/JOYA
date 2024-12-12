@@ -65,7 +65,7 @@ const Footer = () => {
               Contact Us
             </h4>
             <p className="text-base text-[#f0ede6]/80 mb-1">
-              {data?.description || "No description available"}
+             Dubai, Business Bay, Prime Tower 1401
             </p>
             <p className="text-base text-[#f0ede6]/80 mb-1">
               Phone: {data?.phone || "N/A"}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
+import axios from "axios"; // Import Axios
 import "aos/dist/aos.css";
 import AOS from "aos";
 
@@ -16,6 +17,7 @@ function ContactPage() {
 
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState("");
+  const [description, setDescription] = useState(""); // State for description
 
   useEffect(() => {
     AOS.init({
@@ -23,6 +25,18 @@ function ContactPage() {
       easing: "ease-in-out",
       once: false,
     });
+    
+    // Fetch description on mount
+    const fetchDescription = async () => {
+      try {
+        const response = await axios.get("https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/contact");
+        setDescription(response.data[0].description); // Set the description from the API response
+      } catch (error) {
+        console.error("Error fetching contact data:", error);
+      }
+    };
+
+    fetchDescription();
   }, []);
 
   const handleChange = (e) => {
@@ -170,15 +184,7 @@ function ContactPage() {
                 transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
               >
                 <div className="text text-[#9da5a4]">
-                  <p className="mb-6">
-                    At Joya Properties, we offer a bespoke service built on
-                    attention to detail and discretion for discerning clients.
-                  </p>
-                  <p className="mb-6">
-                    We meticulously choose brokers with exceptional success in
-                    the Joya market. Currently, we are not accepting
-                    applications to join the agency.
-                  </p>
+                  <p className="mb-6">{description}</p> {/* Display the fetched description */}
                 </div>
 
                 {/* Map Section */}

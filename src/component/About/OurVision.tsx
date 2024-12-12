@@ -1,40 +1,56 @@
-import React from "react";
-import image1 from "../../images/List-and-offplan 100x667/3.png";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../axios"; // Assuming axios instance is configured
 
 const OurVision = () => {
-  console.log("Our Vision Component Rendered");
+  const [section, setSection] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
+  // Fetch specific section by ID
+  useEffect(() => {
+    const fetchSection = async () => {
+      try {
+        const response = await axiosInstance.get(`/hero-sections/675aa5e56ff9292f28bbbb89`);
+        setSection(response.data); // Set the section data
+      } catch (error) {
+        setErrorMessage("Error fetching section: " + (error.response?.data?.message || error.message));
+      }
+    };
+
+    fetchSection();
+  }, []); // Empty dependency array means this runs once when the component mounts
+
+  if (errorMessage) {
+    return <div className="text-red-500">{errorMessage}</div>;
+  }
+
+  if (!section) {
+    return <div>Loading...</div>; // Show loading while fetching data
+  }
+  const baseurl = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app"
   return (
     <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-2 w-full">
       {/* Text Section */}
       <div className="flex flex-col bg-[#041d1a] md:order-2 lg:order-2 py-3 md:py-0 lg:py-0">
         <div className="mx-2 md:mx-4 md:my-auto lg:mx-20 lg:my-auto">
           <div className="mb-2 lg:mb-10">
-            <h1 className="text-2xl lg:text-5xl text-[#f0ede6] font-bold">
-              Our Vision
-            </h1>
+            <h1 className="text-2xl lg:text-5xl text-[#f0ede6] font-bold">{section.title}</h1>
           </div>
           <p className="text-sm lg:text-lg font-serif text-[#f1f0ec] whitespace-pre-wrap leading-relaxed">
-            Joya Properties aims to become a leading boutique real estate agency
-            that goes beyond mere property transactions. Our purpose is to
-            empower clients and team members to achieve financial freedom
-            through thoughtful, bespoke real estate solutions. By cultivating
-            lasting partnerships grounded in trust, personalized service, and
-            exceptional market expertise,We strive to become a globally
-            recognized agency celebrated for fostering enduring relationships,
-            loyalty, and success.
+            {section.paragraph}
           </p>
         </div>
       </div>
 
       {/* Image Section */}
-      <div>
-        <img
-          src={image1}
-          alt="Joya Vision"
-          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-        />
-      </div>
+      {section.image && (
+        <div>
+          <img
+            src={`${baseurl}${section.image}`}
+            alt="Joya Vision"
+            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+          />
+        </div>
+      )}
     </div>
   );
 };

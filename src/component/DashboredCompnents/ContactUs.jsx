@@ -101,7 +101,7 @@ const ContactUs = () => {
             <h3 className="text-sm text-[#9da5a4] mb-2">Description</h3>
             <textarea
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setDescription( e.target.value)}
               className="w-full p-4 bg-[#111612] text-white border border-[#3d6a64] rounded focus:outline-none focus:ring-2 focus:ring-[#3d6a64]"
               rows="4"
             />
