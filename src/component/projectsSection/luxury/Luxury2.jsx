@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import MortgageCalculator from "../../services/MortageCalculator";
-import FeaturesTitle from "./FeaturesTitle";
 import axios from "axios";
-import { CodeSandboxLogoIcon } from "@radix-ui/react-icons";
+import LuxuryTitle from "./LuxuryTitle";
 
-const Features2 = () => {
-  const [featureProperties, setFeatureProperties] = useState([]);
+const Luxury2 = () => {
+  const [featureProperties, setFeatureProperties] = useState([]); // Ensure state is initialized as an array
   const [loading, setLoading] = useState(true);
-  
 
   // Fetch data from API
   useEffect(() => {
     const fetchFeatures = async () => {
       try {
-        const response = await axios.get("https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/feature");
-        setFeatureProperties(response.data);
+        const response = await axios.get("https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/laxury");
+
+        // Check if response.data.data is an array
+        if (Array.isArray(response.data)) {
+          setFeatureProperties(response.data);
+        } else {
+          console.error("Unexpected response format:", response.data);
+        }
       } catch (error) {
         console.error("Error fetching features:", error);
       } finally {
@@ -25,9 +29,11 @@ const Features2 = () => {
 
     fetchFeatures();
   }, []);
+  console.log(featureProperties)
 
   // Helper function to truncate description to 30 words
   const truncateText = (text, maxWords) => {
+    if (!text) return ""; // Handle undefined text
     const words = text.split(" ");
     if (words.length > maxWords) {
       return words.slice(0, maxWords).join(" ") + "...";
@@ -37,24 +43,23 @@ const Features2 = () => {
 
   return (
     <div className="bg-[#111612] overflow-hidden">
-      {/* Title Section */}
-      <div>
-        <FeaturesTitle />
+      Title Section */
+       <div>
+        <LuxuryTitle />
       </div>
 
       <MortgageCalculator />
 
-      {/* Properties Section */}
       <div className="py-16 bg-[#111612] text-[#faf8f7]">
         <div className="container mx-auto px-4 lg:px-16">
           <h2 className="text-3xl font-bold mb-8">Similar Projects</h2>
           {loading ? (
             <p className="text-center text-white">Loading...</p>
-          ) : (
+          ) : featureProperties.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {featureProperties.map((property, index) => (
                 <motion.div
-                  key={index}
+                  key={property._id || index} // Use a fallback key
                   className="bg-[#1c1e1b] rounded-lg shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-500"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -85,6 +90,8 @@ const Features2 = () => {
                 </motion.div>
               ))}
             </div>
+          ) : (
+            <p className="text-center text-white">No properties available.</p>
           )}
         </div>
       </div>
@@ -92,4 +99,4 @@ const Features2 = () => {
   );
 };
 
-export default Features2;
+export default Luxury2;

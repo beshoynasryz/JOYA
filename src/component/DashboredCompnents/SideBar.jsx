@@ -65,9 +65,19 @@ const Sidebar = () => {
             path: "/properties"
           },
           {
-            label: "Add Property", 
+            label: "Add of plan", 
             icon: <FaPlusSquare size={20} />, 
-            path: "/add-property"
+            path: "/add-of-plan"
+          },
+          {
+            label: "Add luxury", 
+            icon: <FaPlusSquare size={20} />, 
+            path: "/add-luxury"
+          },
+          {
+            label: "Add feature",  
+            icon: <FaPlusSquare size={20} />, 
+            path: "/add-feature"
           },
           {
             label: "Services", 
@@ -124,9 +134,19 @@ const Sidebar = () => {
             path: "/properties"
           },
           {
-            label: "Add Property", 
+            label: "The Acres Estates plan", 
             icon: <FaPlusSquare size={20} />, 
-            path: "/add-property"
+            path: "/add-of-plan"
+          },
+          {
+            label: "add luxury", 
+            icon: <FaPlusSquare size={20} />, 
+            path: "/add-luxury"
+          },
+          {
+            label: "add feature", 
+            icon: <FaPlusSquare size={20} />, 
+            path: "/add-feature"
           },
           {
             label: "Services", 

@@ -30,8 +30,8 @@ const OffPlanDetails = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(`https://joya-back.onrender.com/offplan/${id}`);
-        setoffplan(response.data.data); // Update blogs state with fetched data
+        const response = await axios.get(`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/off-plan/${id}`);
+        setoffplan(response.data); // Update blogs state with fetched data
       } catch (error) {
         console.error("Error fetching the blogs:", error);
       } finally {
@@ -48,8 +48,8 @@ const OffPlanDetails = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(`https://joya-back.onrender.com/offplan`);
-        setallofplan(response.data.data); // Update blogs state with fetched data
+        const response = await axios.get(`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/off-plan`);
+        setallofplan(response.data); // Update blogs state with fetched data
       } catch (error) {
         console.error("Error fetching the blogs:", error);
       } finally {
@@ -80,33 +80,32 @@ const OffPlanDetails = () => {
    
    
 const proximity= [
-    { icon: icon4, text: "35 Minutes to Expo City" },
-    { icon: icon2 , text: "30 Minutes to Marina Walk" },
-    { icon: icon3, text: "30 Minutes to Dubai International Airport" },
-    { icon:icon1, text: "35 Minutes to Downtown Dubai" }
+    { icon: icon4, text: `${offplan?.ExpoCity} Minutes to Expo City` },
+    { icon: icon2 , text: `${offplan?.MarinaWalk} Minutes to Marina Walk` },
+    { icon: icon3, text: `${offplan?.DubaiInternationalAirport} Minutes to Dubai International Airport` },
+    { icon:icon1, text: `${offplan?.DowntownDubai} Minutes to Downtown Dubai` }
   ]
 
-  const similarProjects = [
-    {
-      title: "The Acres Estates",
-      imgSrc: "/features/project2/WhatsApp Image 2024-11-04 at 23.44.28_17385a5b.jpg",
-      description: "Exclusive villas offering luxurious and sustainable living spaces.",
-      link: "/projects/the-acres-estates",
-    },
-    {
-      title: "Green Ridge Villas",
-      imgSrc: "/features/project3/WhatsApp Image 2024-11-04 at 23.51.47_b270ce52.jpg",
-      description: "Modern villas with lush green landscapes and contemporary architecture.",
-      link: "/projects/green-ridge-villas",
-    },
-    {
-      title: "Oceanfront Residences",
-      imgSrc: "/features/project3/WhatsApp Image 2024-11-04 at 23.51.52_11fc0400.jpg",
-      description: "Luxurious oceanfront homes with stunning sea views and amenities.",
-      link: "/projects/oceanfront-residences",
-    },
-  ];
-  
+ 
+
+
+  useEffect(() => {
+    const fetchAllProjects = async () => {
+      try {
+        const response = await axios.get(
+          "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/off-plan"
+        );
+        setallofplan(response.data);
+      } catch (error) {
+        console.error("Error fetching all projects:", error);
+      }
+    };
+
+    fetchAllProjects();
+  }, []);
+
+ 
+  console.log(allofplan)
 
   return (
     <>
@@ -121,7 +120,7 @@ const proximity= [
       transition={{ duration: 1.5, delay: 0.2 }}
       className="hidden sm:block absolute inset-0 bg-cover bg-center"
       style={{
-        backgroundImage: `url(${offplan?.imgSrcs?.[0] || "/default-desktop-image.jpg"})`,
+        backgroundImage: `url(https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${offplan?.imgSrcs?.[0] || "/default-desktop-image.jpg"})`,
       }}
     ></motion.div>
 
@@ -225,7 +224,7 @@ const proximity= [
           className="w-16 h-16 mb-2" // Increased Icon size
         />
         <div>
-          <p className="text-lg font-semibold">AED 1,040,000</p>
+          <p className="text-lg font-semibold">AED {offplan.StartingPrice}</p>
           <span className="text-sm text-[#d3d3d3]">Starting Price</span>
         </div>
       </div>
@@ -237,8 +236,8 @@ const proximity= [
           className="w-16 h-16 mb-2" // Increased Icon size
         />
         <div>
-          <p className="text-lg font-semibold">2026</p>
-          <span className="text-sm text-[#d3d3d3]">Handover Date 2026</span>
+          <p className="text-lg font-semibold">{offplan.HandoverDate}</p>
+          <span className="text-sm text-[#d3d3d3]">Handover Date {offplan.HandoverDate}</span>
         </div>
       </div>
 
@@ -249,8 +248,8 @@ const proximity= [
           className="w-16 h-16 mb-2" // Increased Icon size
         />
         <div>
-          <p className="text-lg font-semibold">20%</p>
-          <span className="text-sm text-[#d3d3d3]">Booking fees 20</span>
+          <p className="text-lg font-semibold">{offplan.Bookingfees}%</p>
+          <span className="text-sm text-[#d3d3d3]">Booking fees {offplan.Bookingfees}</span>
         </div>
       </div>
 
@@ -261,7 +260,7 @@ const proximity= [
           className="w-16 h-16 mb-2" // Increased Icon size
         />
         <div>
-          <p className="text-lg font-semibold">2 | 3 | 4 | 5</p>
+          <p className="text-lg font-semibold">{offplan.Bedrooms?.[0]} | {offplan.Bedrooms?.[1]} | {offplan.Bedrooms?.[2]} | {offplan.Bedrooms?.[3]}</p>
           <span className="text-sm text-[#d3d3d3]">Bedrooms</span>
         </div>
       </div>
@@ -294,14 +293,22 @@ const proximity= [
                 {offplan?.imgSrcs?.slice(0, 2).map((src, index) => (
                   <img
                     key={index}
-                    src={src}
+                    src={
+                      src
+                        ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${src}`
+                        : "/default-image.jpg"
+                    }
                     alt={`Property Image ${index + 1}`}
                     className="w-full h-[250px] object-cover rounded-lg"
                   />
                 ))}
               </div>
               <img
-                src={offplan?.imgSrcs?.[2]}
+                src={
+                  offplan.imgSrcs
+                    ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${offplan.imgSrcs?.[2]}`
+                    : "/default-image.jpg"
+                }
                 alt="Property Image 3"
                 className="w-full h-[300px] object-cover rounded-lg"
               />
@@ -391,12 +398,12 @@ const proximity= [
       >
       <h2 className="text-2xl font-extrabold mb-10">Payment Plan</h2>
 
-        <p>{offplan?.paymentPlan?.description}</p>
+        <p>{offplan?.PaymentPlan}</p>
       </motion.div>
 
       {/* Clickable Map */}
       <motion.a
-        href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.3935221257595!2d55.27218731499999!3d25.20484968387482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDEyJzE3LjgiTiA1NcKwMTYnMjIuNiJF!5e0!3m2!1sen!2sae!4v1604414715792!5m2!1sen!2sae"
+         href={offplan?.location || "#"}
         target="_blank"
         rel="noopener noreferrer"
         initial={{ opacity: 0, x: 50 }}
@@ -406,7 +413,7 @@ const proximity= [
         className="w-full h-64 md:h-96 rounded-lg overflow-hidden block"
       >
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.3935221257595!2d55.27218731499999!3d25.20484968387482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDEyJzE3LjgiTiA1NcKwMTYnMjIuNiJF!5e0!3m2!1sen!2sae!4v1604414715792!5m2!1sen!2sae"
+          src={`${offplan.location}`}
           width="100%"
           height="100%"
           style={{ border: 0 }}
@@ -418,50 +425,60 @@ const proximity= [
     </div>
   </motion.div>
 </div>
-
-
-{/* Similar Projects Section */}
-<div className="bg-[#111612] text-[#faf8f7] py-16">
-  <div className="container mx-auto px-4 lg:px-16">
-    <h2 className="text-3xl font-bold mb-8">Similar Projects</h2>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {allofplan
-        .filter((project) => project._id !== id) // Exclude the current project
-        .slice(0, 3) // Limit to 3 similar projects
-        .map((project, index) => (
-          <motion.div
-            key={project._id}
-            className="bg-[#1c1e1b] rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }} // Trigger animation on every scroll
-            transition={{
-              duration: 1.5, // Slower animation
-              ease: "easeOut", // Smooth easing
-              delay: index * 0.3, // Slight delay for staggered effect
-            }}
-          >
-            <a href={`/projects/off-plan2/${project._id}`}>
-              <img
-                src={project.imgSrcs?.[0] || "/default-image.jpg"} // Fallback image if none exists
-                alt={project.title}
-                className="w-full h-64 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold">{project.title}</h3>
-                <p className="text-sm text-[#d3d3d3] mt-2">
-                  {project.description?.substring(0, 100)}...
-                </p>
-              </div>
-            </a>
-          </motion.div>
-        ))}
-    </div>
-  </div>
-</div>
-
-
       
+  {/* Other sections of OffPlanDetails */}
+
+      {/* Similar Projects Section */}  
+      <div className="bg-[#111612] text-[#faf8f7] py-16">
+        <div className="container mx-auto px-4 lg:px-16">
+          <h2 className="text-3xl font-bold mb-8">Similar Projects</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {allofplan
+              .filter((project) => project._id !== id) // Exclude the current project
+              .slice(0, 3) // Limit to 3 similar projects
+              .map((project, index) => (
+                <motion.div
+                  key={project._id}
+                  className="bg-[#1c1e1b] rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.2 }}
+                  transition={{
+                    duration: 1.5,
+                    ease: "easeOut",
+                    delay: index * 0.3,
+                  }}
+                >
+                  <a href={`/projects/off-plan2/${project._id}`}>
+                    <img
+                      src={
+                        project.imgSrcs?.[0]
+                          ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${project.imgSrcs[0]}`
+                          : "/default-image.jpg"
+                      }
+                      alt={project.title || "Project Image"}
+                      className="w-full h-64 object-cover"
+                    />
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold">
+                        {project.title || "Untitled Project"}
+                      </h3>
+                      <p className="text-sm text-[#d3d3d3] mt-2">
+                        {project.description
+                          ? project.description.substring(0, 100) + "..."
+                          : "No description available."}
+                      </p>
+                    </div>
+                  </a>
+                </motion.div>
+              ))}
+          </div>
+        </div>
+      </div>
+      
+
+
+
     </div>
     </>
    

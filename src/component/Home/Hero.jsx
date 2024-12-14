@@ -80,9 +80,9 @@ const Hero = () => {
                       {slide.name}
                     </span>
                   </h1>
-                  <p className="text-base mt-1 leading-4 font-extralight uppercase">
+                  {/* <p className="text-base mt-1 leading-4 font-extralight uppercase">
                     {slide.url}
-                  </p>
+                  </p> */}
                 </div>
               </div>
               {/* Button Positioned at Bottom-Right */}

@@ -11,8 +11,8 @@ function Features() {
   useEffect(() => {
     const fetchFeaturesData = async () => {
       try {
-        const response = await axios.get("https://joya-back.onrender.com/feature");
-        setfeaturesCards(response.data.data); // Update state with fetched data
+        const response = await axios.get("https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/feature");
+        setfeaturesCards(response.data); // Update state with fetched data
       } catch (error) {
         console.error("Error fetching the feature data:", error);
       } finally {
@@ -22,6 +22,7 @@ function Features() {
 
     fetchFeaturesData();
   }, []);
+  console.log(featuresCards)
 
   // Initialize AOS
   useEffect(() => {
@@ -48,7 +49,7 @@ function Features() {
         Features
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-20">
-        {featuresCards.map((card, index) => (
+        {featuresCards?.map((card, index) => (
           <a
             href={`/Projects/Features2/${card._id}`} // Dynamic link with card ID
             key={index}
@@ -58,7 +59,11 @@ function Features() {
           >
             <div className="overflow-hidden rounded-lg mb-6">
               <img
-                src={card?.imgSrcs?.[0]} // Dynamically display image
+                src={card.imgSrcs?.[0] 
+                  ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${card.imgSrcs[0]}` 
+                  : "/default-image.jpg"} 
+
+
                 alt={card.title}
                 className="w-full h-64 object-cover rounded-lg transform transition-transform duration-500 hover:scale-110"
               />

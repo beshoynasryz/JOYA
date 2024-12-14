@@ -1,57 +1,49 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '../axios'; // Assuming axiosInstance is used for API requests
 import Sidebar from '../component/DashboredCompnents/SideBar';
 import { useState } from 'react';
+import { FaTrash } from 'react-icons/fa'; // Import trash icon
 
-// Fetch function for properties
-const fetchProperties = async () => {
-  const response = await axiosInstance.get('/property'); // Adjust API endpoint as needed
-  return response.data;
-};
-
-// Delete function for property
-const deleteProperty = async (propertyId) => {
-  const response = await axiosInstance.delete(`/property/${propertyId}`);
+// Fetch function for properties based on selected type
+const fetchProperties = async (type) => {
+  const response = await axiosInstance.get(`/${type}`); // Fetch based on type
   return response.data;
 };
 
 function PropertiesPage() {
-  // State for search query and selected type filter
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedType, setSelectedType] = useState('all');
+  const [selectedType, setSelectedType] = useState('off-plan'); // Default to 'off-plan'
 
-  const queryClient = useQueryClient();
-
+  // Fetch properties from the selected type
   const { data, error, isLoading } = useQuery({
-    queryKey: ['property'],
-    queryFn: fetchProperties,
-  });
-
-  const mutation = useMutation({
-    mutationFn: deleteProperty,
-    onSuccess: () => {
-      // Refetch properties after a successful delete
-      queryClient.invalidateQueries(['property']);
-    },
+    queryKey: ['property', selectedType], // Add selectedType to the query key for dynamic refetching
+    queryFn: () => fetchProperties(selectedType),
   });
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  // Filter the properties based on the search query and type filter
+  // Filter properties based on search query
   const filteredProperties = data.filter((property) => {
-    // Ensure description is defined before calling .toLowerCase()
     const description = property.description ? property.description.toLowerCase() : '';
-
-    // Filter by search query (description or any other field)
-    const matchesSearch = description.includes(searchQuery.toLowerCase());
-
-    // Filter by selected type
-    const matchesType = selectedType === 'all' || property.type === selectedType;
-
-    return matchesSearch && matchesType;
+    return description.includes(searchQuery.toLowerCase());
   });
+
   const baseURL = "https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app";
+
+  // Function to handle property deletion (delete based on type)
+  const handleDelete = async (propertyId) => {
+    try {
+      // Make a DELETE request to the correct endpoint based on the selected type
+      await axiosInstance.delete(`/${selectedType}/${propertyId}`);
+      
+      // After successful delete, refetch the properties
+      // This triggers a refetch using the current selectedType
+      // React-query will automatically update the list
+    } catch (error) {
+      console.error("Failed to delete property:", error);
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-[#111612] text-white">
@@ -81,10 +73,9 @@ function PropertiesPage() {
               onChange={(e) => setSelectedType(e.target.value)}
               className="p-2 rounded-md bg-[#1a1f1e] text-white border border-[#3d6a64]"
             >
-              <option value="all">All Types</option>
-              <option value="luxury">Luxury</option>
+              <option value="laxury">Luxury</option>
               <option value="feature">Feature</option>
-              <option value="offplan">Off Plan</option>
+              <option value="off-plan">Off Plan</option>
             </select>
           </div>
         </div>
@@ -95,28 +86,25 @@ function PropertiesPage() {
             <div>No properties found</div> // Handle empty data scenario
           ) : (
             filteredProperties.map((property) => (
-              <div key={property._id} className="bg-[#1a1f1e] rounded-lg shadow-md overflow-hidden">
+              <div key={property._id} className="bg-[#1a1f1e] rounded-lg shadow-md overflow-hidden relative">
                 <img
                   src={`${baseURL}${property.imageProperty}`} 
-                  alt={property.location} 
+                  alt={property.imageProperty} 
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <p className="text-lg font-semibold">{property.location || 'No location'}</p> {/* Use location or fallback */}
+                  <p className="text-lg font-semibold">{property.title || 'No location'}</p>
                   <p className="text-sm text-gray-400 mt-2">
-                    {/* Check if description is valid */}
                     {property.description ? property.description.slice(0, 100) + '...' : 'No description available'}
                   </p>
-                  <div className="flex justify-end mt-4">
-                    <button
-                      onClick={() => mutation.mutate(property._id)} // Trigger delete on click
-                      className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                      title="Delete Property"
-                    >
-                      🗑️
-                    </button>
-                  </div>
                 </div>
+                {/* Trash Button */}
+                <button
+                  onClick={() => handleDelete(property._id)}
+                  className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
+                >
+                  <FaTrash />
+                </button>
               </div>
             ))
           )}

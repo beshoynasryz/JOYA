@@ -18,7 +18,7 @@ import EmailInputScreen from "./pages/EmailPage.jsx";
 import LoginComponent from "./pages/LoginPage.jsx";
 import Properties from "./pages/Dashboard.jsx";
 import DashboardHome from "./pages/DashboardHome.jsx";
-import AddProperty from "./pages/AddProperty.jsx";
+// import AddProperty from "./pages/AddProperty.jsx"; 
 import Team from "./component/DashboredCompnents/Team.jsx";
 import AboutUs from "./component/DashboredCompnents/AboutUs.jsx";
 import ContactUs from "./component/DashboredCompnents/ContactUs.jsx";
@@ -27,7 +27,10 @@ import AddBlog from "./component/DashboredCompnents/AddBlog.jsx";
 import EditBlog from "./component/DashboredCompnents/EditBlog.jsx";
 import EditServices from "./component/DashboredCompnents/EditServices.jsx";
 import PrivateRoute from "./component/PrivateRoute.js";  // Import the PrivateRoute
-
+import AddOffPlan from "./pages/AddOfPlan.jsx";
+import Luxury2 from "./component/projectsSection/luxury/Luxury2.jsx";
+import LuxuryDashboard from "../src/component/DashboredCompnents/Luxury.jsx";
+import FeatureDashboard from "./component/DashboredCompnents/FeatureDashboard.jsx";
 function App() {
   return (
     <BrowserRouter>
@@ -72,6 +75,14 @@ function App() {
             </Layout>
           }
         />
+         <Route
+          path="/Projects/Luxury2/:id"
+          element={
+            <Layout>
+              <Luxury2 />
+            </Layout>
+          }
+        />
         <Route
           path="/Projects/Luxury"
           element={
@@ -88,7 +99,10 @@ function App() {
           {/* All routes under this will require login */}
           <Route path="/Properties" element={<Properties />} />
           <Route path="/DashboardHome" element={<DashboardHome />} />
-          <Route path="/add-property" element={<AddProperty />} />
+          <Route path="/add-of-plan" element={<AddOffPlan />} />
+          {/* <Route path="/add-property" element={<AddProperty />} /> */}
+          <Route path="/add-luxury" element={<LuxuryDashboard />} />
+          <Route path="/add-feature" element={<FeatureDashboard />} />
           <Route path="/team" element={<Team />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />

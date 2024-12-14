@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import HeroAbout from "./HeroAbout.tsx";
@@ -13,6 +13,8 @@ import CommercialDominance from "./CommercialDominance.tsx";
 import OurValues from "./OurValues.tsx";
 import AgentSlider from "../Home/AgentSlider.jsx";
 import TeamSlider from "../Home/TeamSlider.jsx";
+import axios from "axios";
+import { CodeSandboxLogoIcon } from "@radix-ui/react-icons";
 
 
 function AboutPage() {
@@ -33,6 +35,30 @@ function AboutPage() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const [image,setimage]=useState();
+
+  useEffect(() => {
+    const fetchFeatures = async () => {
+      try {
+        const response = await axios.get("https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/hero-sections/675c0322be25e4b444d72f35");
+
+        // Check if response.data.data is an array
+      
+          setimage(response?.data?.image);
+     
+          
+    
+      } catch (error) {
+        console.error("Error fetching features:", error);
+      } finally {
+       
+      }
+    };
+
+    fetchFeatures();
+  }, []);
+  console.log(image)
+
 
   return (
     <div className="bg-[#111612] text-white pt-28 overflow-x-hidden">
@@ -89,10 +115,11 @@ function AboutPage() {
       </div>
 
       {/* Our Agents Section */}
+      
       <div
         className="w-full bg-no-repeat bg-cover bg-fixed min-h-[400px] md:min-h-[550px]"
         style={{
-          backgroundImage: "url('https://i.imgur.com/mAyyDeA.jpeg')",
+          backgroundImage: `url('https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${image || "/default-image.jpg"}')`,
         }}
       ></div>
 

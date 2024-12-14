@@ -4,16 +4,16 @@ import { FaPhoneAlt, FaWhatsapp, FaBed, FaBath, FaRulerCombined, FaCar } from "r
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-const FeatureTitleDuplicate = () => {
+const LuxuryTitle = () => {
   const { id } = useParams();
-  const [project, setProject] = useState([]);
+  const [project, setProject] = useState(null); // Initialize as null
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await axios.get(`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/feature/${id}`);
-        setProject(response.data);
+        const response = await axios.get(`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/laxury/${id}`);
+        setProject(response.data); // Set the fetched project data
       } catch (error) {
         console.error("Error fetching the project:", error);
       } finally {
@@ -26,11 +26,19 @@ const FeatureTitleDuplicate = () => {
   console.log(project)
 
   const highlights = [
-    { icon: <FaBed />, text: `${project?.beds} beds` },
-    { icon: <FaBath />, text: `${project?.baths} baths` },
-    { icon: <FaRulerCombined />, text: `${project?.sq} Sq. ft.` },
-    { icon: <FaCar />, text: "5 cars" },
+    { icon: <FaBed />, text: `${project?.beds || 0} beds` },
+    { icon: <FaBath />, text: `${project?.baths || 0} baths` },
+    { icon: <FaRulerCombined />, text: `${project?.sq || 0} Sq. ft.` },
+    { icon: <FaCar />, text: `${project?.cars || 0} cars` },
   ];
+
+  if (loading) {
+    return <p className="text-center text-white">Loading...</p>;
+  }
+
+  if (!project) {
+    return <p className="text-center text-white">Project not found.</p>;
+  }
 
   return (
     <>
@@ -54,7 +62,7 @@ const FeatureTitleDuplicate = () => {
 
         {/* Title Overlay */}
         <div className="absolute bottom-10 left-10 z-20 text-white">
-          <h1 className="text-4xl md:text-6xl font-bold">{project.title }</h1>
+          <h1 className="text-4xl md:text-6xl font-bold">{project.title}</h1>
         </div>
 
         {/* Gradient Overlay */}
@@ -80,23 +88,23 @@ const FeatureTitleDuplicate = () => {
             >
               <div className="grid grid-cols-2 gap-4">
                 {project?.imgSrcs?.slice(0, 2).map((src, index) => (
-                   <img
-                   key={index}
-                   src={`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${src}`}
-                   alt={`Property Image ${index + 1}`}
-                   className="w-full h-[250px] object-cover rounded-lg"
-                 />
+                  <img
+                    key={index}
+                    src={`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${src}`}
+                    alt={`Property Image ${index + 1}`}
+                    className="w-full h-[250px] object-cover rounded-lg"
+                  />
                 ))}
               </div>
-              {project.imgSrcs?.[2] && (
-               <img
-               src={project?.imgSrcs?.[2] 
-                   ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${project.imgSrcs[2]}` 
-                   : "/default-image.jpg"}
-                 
-                 alt="Property Image 3"
-                 className="w-full h-[300px] object-cover rounded-lg"
-               />
+              {project?.imgSrcs?.[2] && (
+                <img
+                src={project?.imgSrcs?.[2] 
+                    ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${project.imgSrcs[2]}` 
+                    : "/default-image.jpg"}
+                  
+                  alt="Property Image 3"
+                  className="w-full h-[300px] object-cover rounded-lg"
+                />
               )}
             </motion.div>
 
@@ -122,7 +130,7 @@ const FeatureTitleDuplicate = () => {
                   </div>
                 </div>
                 <div className="flex flex-col items-center">
-                <img
+                  <img
                     src={`https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${project?.agentImage}` || "/default-agent.jpg"}
                     alt={project?.agent?.name || "Agent"}
                     className="w-24 h-24 rounded-full border-4 border-[#404740] mb-2"
@@ -165,4 +173,4 @@ const FeatureTitleDuplicate = () => {
   );
 };
 
-export default FeatureTitleDuplicate;
+export default LuxuryTitle;

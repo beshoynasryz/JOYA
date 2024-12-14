@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { FaSave, FaEdit, FaPlusSquare } from "react-icons/fa";
 import Sidebar from "./SideBar";
 import axiosInstance from "../../axios"; // Axios instance
+import ImageServices from "./ImageServices";
 
 const EditServices = () => {
   const queryClient = useQueryClient();
@@ -14,6 +15,8 @@ const EditServices = () => {
     paragraph: "",
     image: "",
   });
+
+
 
   // Fetch all services
   const fetchServices = async () => {
@@ -103,7 +106,8 @@ const EditServices = () => {
 
       <div className="flex-1 p-6">
         <h1 className="text-2xl font-semibold mb-6 text-center">Edit Services</h1>
-
+          <ImageServices/>
+  
         {/* Services List */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">

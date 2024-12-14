@@ -12,17 +12,20 @@ function OffPlan() {
   useEffect(() => {
     const fetchOffPlanData = async () => {
       try {
-        const response = await axios.get("https://joya-back.onrender.com/offplan");
-        setOffplan(response.data.data); // Update state with fetched data
+        const response = await axios.get("https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/off-plan");
+        setOffplan(response.data); // Update state with fetched data
+        
       } catch (error) {
         console.error("Error fetching the off-plan data:", error);
       } finally {
         setLoading(false); // Set loading to false
       }
     };
+    
 
     fetchOffPlanData();
   }, []);
+  console.log(offplan)
 
   // Initialize AOS animations
   useEffect(() => {
@@ -57,7 +60,7 @@ function OffPlan() {
         <p className="text-white text-lg">Loading...</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-32">
-          {offplan.map((item, index) => (
+          {offplan?.map((item, index) => (
             <Link
               to={`/Projects/Off-Plan2/${item._id}`} // Use _id for dynamic routing
               key={item._id} // Use _id as the unique key
@@ -67,8 +70,9 @@ function OffPlan() {
             >
               <div className="overflow-hidden rounded-lg mb-6">
                 <img
-                  src={item.imgSrcs?.[0] || "/default-image.jpg"} // Use item image or default if missing
-                  alt={item.title}
+                   src={item.imgSrcs?.[0] 
+                    ? `https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app${item.imgSrcs[0]}` 
+                    : "/default-image.jpg"} alt={item.title}
                   className="w-full h-40 sm:h-48 lg:h-64 object-cover rounded-lg transform transition-transform duration-500 hover:scale-110"
                 />
               </div>
