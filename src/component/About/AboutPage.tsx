@@ -40,7 +40,7 @@ function AboutPage() {
   useEffect(() => {
     const fetchFeatures = async () => {
       try {
-        const response = await axios.get("https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/hero-sections/675c0322be25e4b444d72f35");
+        const response = await axios.get("https://sleepy-blinnie-beshoynasry-2859766e.koyeb.app/api/hero-sections/675d45d8f80100a8efe8dda8");
 
         // Check if response.data.data is an array
       
