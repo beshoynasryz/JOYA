@@ -65,7 +65,7 @@ const Sidebar = () => {
             path: "/properties"
           },
           {
-            label: "Add of plan", 
+            label: "Add Off Plan", 
             icon: <FaPlusSquare size={20} />, 
             path: "/add-of-plan"
           },
@@ -134,7 +134,7 @@ const Sidebar = () => {
             path: "/properties"
           },
           {
-            label: "The Acres Estates plan", 
+            label: "Add Off Plan", 
             icon: <FaPlusSquare size={20} />, 
             path: "/add-of-plan"
           },

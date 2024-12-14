@@ -99,7 +99,7 @@ const FeatureDashboard = () => {
       <Sidebar />
 
       <div className="flex-1 p-6">
-        <h1 className="text-2xl font-semibold mb-6 text-center">feature </h1>
+        <h1 className="text-2xl font-semibold mb-6 text-center">Feature Projects </h1>
 
         {error && <div className="text-red-500 mb-4">{error}</div>}
 
