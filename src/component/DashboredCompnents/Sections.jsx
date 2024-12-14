@@ -133,12 +133,12 @@ const Sections = () => {
                   >
                     <FaEdit size={20} />
                   </button>
-                  <button
+                  {/* <button
                     onClick={() => handleDelete(section._id)}
                     className="text-red-500"
                   >
                     <FaTrash size={20} />
-                  </button>
+                  </button> */}
                 </div>
               </div>
             ))
