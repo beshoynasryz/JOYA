@@ -70,12 +70,12 @@ const Sidebar = () => {
             path: "/add-of-plan"
           },
           {
-            label: "Add luxury", 
+            label: "Add Luxury", 
             icon: <FaPlusSquare size={20} />, 
             path: "/add-luxury"
           },
           {
-            label: "Add feature",  
+            label: "Add Feature",  
             icon: <FaPlusSquare size={20} />, 
             path: "/add-feature"
           },
@@ -139,12 +139,12 @@ const Sidebar = () => {
             path: "/add-of-plan"
           },
           {
-            label: "add luxury", 
+            label: "Add Luxury", 
             icon: <FaPlusSquare size={20} />, 
             path: "/add-luxury"
           },
           {
-            label: "add feature", 
+            label: "Add Feature", 
             icon: <FaPlusSquare size={20} />, 
             path: "/add-feature"
           },
