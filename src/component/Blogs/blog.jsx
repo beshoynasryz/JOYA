@@ -13,6 +13,7 @@ const Blog = () => {
       description: "Learn about the new rules introduced by the Dubai Land Department aimed at increasing transparency.",
       image: image3,
       views: 120,
+      category: "REGULATIONS",
     },
     {
       _id: "2",
@@ -22,6 +23,7 @@ const Blog = () => {
       description: "Discover the challenges and opportunities that define the journey of a real estate agent in Dubai.",
       image: image4,
       views: 250,
+      category: "CAREER",
     },
     {
       _id: "3",
@@ -31,6 +33,7 @@ const Blog = () => {
       description: "Explore key real estate trends shaping the Dubai property market and how to make the best investment decisions.",
       image: image5,
       views: 300,
+      category: "INVESTMENT",
     },
   ];
 
@@ -63,77 +66,74 @@ const Blog = () => {
           {blogs.length > 0 ? (
             blogs.map((blog) => (
               <a
-                href={`/SpecificBlog/${blog._id}`} // Dynamic link to /SpecificBlog/:id
-                key={blog._id} // Use `_id` as the unique key
-                className="bg-[#1c1e1b] rounded-lg shadow-lg flex overflow-hidden flex-col md:flex-row transform transition duration-300 hover:scale-105"
+                href={`/SpecificBlog/${blog._id}`}
+                key={blog._id}
+                className="block bg-[#1c1e1b] rounded-lg shadow-lg overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl"
               >
-                {/* Image Section */}
-                <div className="w-full md:w-1/3 relative">
+                <div className="relative w-full h-64 md:h-80">
                   <img
-                    src={blog.image || "https://via.placeholder.com/300"} // Fallback image
+                    src={blog.image || "https://via.placeholder.com/400"}
                     alt={blog.title}
                     className="w-full h-full object-cover"
                   />
-                  <span className="absolute bottom-4 right-4 text-gray-300 text-sm">
-                    {blog.author || "Unknown"}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <span className="absolute top-4 left-4 bg-[#a0b3b1] text-black text-xs font-bold uppercase px-3 py-1 rounded-full">
+                    {blog.category}
                   </span>
                 </div>
 
-                {/* Content Section */}
-                <div className="p-6 flex flex-col justify-between flex-grow">
-                  {/* Title and Author */}
-                  <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">
-                      {blog.title || "No Title"}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      By <span className="text-blue-500">{blog.author}</span> on{" "}
-                      {blog.date || "No Date"}
-                    </p>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-[#a0b3b1] text-sm mt-4 mb-4 flex-grow truncate-description">
+                <div className="p-6">
+                  <h3 className="text-3xl font-extrabold text-white mb-4 leading-tight">
+                    {blog.title || "No Title"}
+                  </h3>
+                  <p className="text-md text-gray-400 mb-4">
+                    By <span className="font-semibold text-white">{blog.author}</span> | {blog.date || "No Date"}
+                  </p>
+                  <p className="text-gray-300 text-lg mb-6">
                     {blog.description
-                      ? blog.description.slice(0, 100) + "..."
+                      ? blog.description.slice(0, 150) + "..."
                       : "No description available."}
                   </p>
-
-                  {/* Footer - Read More and Views */}
                   <div className="flex items-center justify-between">
-                    <span className="text-blue-500 font-medium text-sm flex items-center space-x-2 hover:underline">
-                      <span>Read More</span>
+                    <span className="inline-flex items-center text-lg font-semibold text-[#a0b3b1] hover:text-white transition-colors duration-300">
+                      Read More
                       <svg
-                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-5 h-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1"
                         fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
                         stroke="currentColor"
-                        className="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M9 5l7 7-7 7"
-                        />
+                          strokeWidth="2"
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        ></path>
                       </svg>
                     </span>
-                    <div className="text-gray-500 text-sm flex items-center space-x-1">
+                    <div className="flex items-center space-x-2 text-gray-400">
                       <svg
-                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-6 h-6"
                         fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
                         stroke="currentColor"
-                        className="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M12 5c7 0 7 6-7 6s0 6-7 6-7-6-7-6 0-6 7-6z"
-                        />
+                          strokeWidth="1.5"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        ></path>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="1.5"
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        ></path>
                       </svg>
-                      <span>{blog.views || 0}</span>
+                      <span className="font-medium">{blog.views || 0}</span>
                     </div>
                   </div>
                 </div>

@@ -18,218 +18,206 @@ export default function SpecificBlog() {
       title: "DLD’s New Rules Enhance Transparency in Dubai Real Estate Sector",
       description: "Learn about the new rules introduced by the Dubai Land Department aimed at increasing transparency.",
       image: image3,
+      category: "REGULATIONS",
+      author: "Nabeel Hammudeh",
+      date: "Monday, 22 July, 2024",
+      views: 120,
     },
     {
       _id: "2",
       title: "Unlocking Opportunities in Real Estate",
       description: "Discover the challenges and opportunities that define the journey of a real estate agent in Dubai.",
       image: image4,
+      category: "CAREER",
+      author: "Nabeel Hammudeh",
+      date: "Friday, 19 July, 2024",
+      views: 250,
     },
     {
       _id: "3",
       title: "Investment Insights: Dubai’s Real Estate Trends",
       description: "Explore key real estate trends shaping the Dubai property market and how to make the best investment decisions.",
       image: image5,
+      category: "INVESTMENT",
+      author: "Nabeel Hammudeh",
+      date: "Wednesday, 17 July, 2024",
+      views: 300,
     },
   ];
 
-  
-    
-
   return (
-    <div style={{ backgroundColor: '#041d1a', padding: '20px', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '20px', fontFamily: 'Arial, sans-serif', color: '#ffffff' }}>
-      <div style={{ paddingTop: 120, color: "#041d1a" }}>
-  .
-         </div>
+    <div className="bg-[#041d1a] text-white min-h-screen">
+      <div className="max-w-5xl mx-auto p-4 md:p-8">
+        <div className="pt-24"></div>
 
         {/* Breadcrumb Navigation */}
-        <nav style={{ marginBottom: '20px', fontSize: '0.9rem', color: '#cccccc', textAlign: 'left' }}>
-          <a href="#" style={{ color: '#cccccc', textDecoration: 'none', marginRight: '10px' }}>Dubai Properties</a>
-          <span style={{ color: '#777777', marginRight: '10px' }}>&gt;</span>
-          <a href="#" style={{ color: '#cccccc', textDecoration: 'none' }}>Dubai Real Estate News</a>
+        <nav className="mb-6 text-sm text-gray-400">
+          <a href="#" className="hover:text-white">Dubai Properties</a>
+          <span className="mx-2">&gt;</span>
+          <a href="#" className="hover:text-white">Dubai Real Estate News</a>
         </nav>
 
         {/* Blog Header */}
-        <header style={{ textAlign: 'center', marginBottom: '40px' }}>
-          {/* Title */}
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#ffffff', marginBottom: '20px', lineHeight: '1.2' }}>
+        <header className="text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
             {blog.title}
           </h1>
-          {/* Author Metadata */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '20px', gap: '15px' }}>
-            {/* Author Image */}
+          <div className="flex items-center justify-center gap-4 mt-6">
             <img
               src={blog.agent}
               alt="Author"
-              style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: '50%',
-                border: '2px solid #eaeaea',
-              }}
+              className="w-16 h-16 rounded-full border-2 border-gray-300"
             />
-            {/* Metadata */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', fontSize: '1rem', color: '#cccccc' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <i className="fa fa-user-circle" style={{ color: '#cccccc', marginRight: '5px' }}></i>
+            <div className="flex items-center gap-4 text-lg text-gray-300">
+              <span className="flex items-center gap-2">
+                <i className="fa fa-user-circle"></i>
                 Nabeel Hammudeh
               </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <i className="fa fa-calendar" style={{ color: '#cccccc', marginRight: '5px' }}></i>
+              <span className="flex items-center gap-2">
+                <i className="fa fa-calendar"></i>
                 Monday, 22 July, 2024
               </span>
-    
             </div>
           </div>
         </header>
 
         {/* Blog Image */}
-        <div style={{ marginBottom: '40px' }}>
+        <div className="mb-12">
           <img
             src={blog.image}
             alt="Blog banner"
-            style={{
-              width: '100%',
-              height: 'auto',
-              borderRadius: '10px',
-              boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-            }}
+            className="w-full h-auto rounded-lg shadow-lg"
           />
         </div>
 
         {/* Blog Content */}
-        <article style={{ lineHeight: '1.8', fontSize: '1.1rem', color: '#ffffff' }}>
-          <p>
-            Choosing the right real estate agent in Dubai is an essential step in making your real estate journey smooth
-            and successful. With the rapidly growing real estate market in Dubai, having the best agent by your side
-            ensures you have access to valuable insights and guidance tailored to your needs.
-          </p>
-          <p>
-            At fäm Properties, we pride ourselves on connecting you with experienced agents who understand the complexities
-            of Dubai's dynamic real estate market. Our agents specialize in providing personalized services to help you
-            find your dream home, investment property, or rental opportunity.
-          </p>
-
-          {/* Additional Content */}
-          <section>
-            <h2
-              style={{
-                fontSize: '1.8rem',
-                marginTop: '30px',
-                marginBottom: '15px',
-                color: '#ffffff',
-                borderBottom: '2px solid #ffffff',
-                paddingBottom: '5px',
-              }}
-            >
-              Key Factors to Consider When Choosing a Real Estate Agent in Dubai
-            </h2>
-            <p>
-              <strong>Experience & Expertise:</strong> Selecting a broker with extensive experience and a proven track
-              record is crucial. An experienced agent brings superior negotiation skills, invaluable market insights,
-              and a deep understanding of Dubai’s real estate landscape, significantly enhancing your transaction's
-              success.
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          {/* Main Content */}
+          <article className="md:col-span-3 text-lg leading-relaxed text-gray-200">
+            <p className="mb-6">
+              Choosing the right real estate agent in Dubai is an essential step in making your real estate journey smooth
+              and successful. With the rapidly growing real estate market in Dubai, having the best agent by your side
+              ensures you have access to valuable insights and guidance tailored to your needs.
             </p>
-            <p>
-              <strong>Local Market Knowledge:</strong> Dubai’s real estate market is vast and rapidly evolving. Choose an
-              agency well-versed in the neighborhoods you’re interested in, and knowledgeable about property values,
-              market trends, and future development plans.
+            <p className="mb-6">
+              At fäm Properties, we pride ourselves on connecting you with experienced agents who understand the complexities
+              of Dubai's dynamic real estate market. Our agents specialize in providing personalized services to help you
+              find your dream home, investment property, or rental opportunity.
             </p>
 
-            <h2
-              style={{
-                fontSize: '1.8rem',
-                marginTop: '30px',
-                marginBottom: '15px',
-                color: '#ffffff',
-                borderBottom: '2px solid #ffffff',
-                paddingBottom: '5px',
-              }}
-            >
-              Finding a Reputable Real Estate Agent in Dubai
-            </h2>
-            <p>
-              <strong>Seek Recommendations:</strong> Reach out to friends, family, or colleagues who have recently engaged
-              in property transactions in Dubai. Their experiences can provide valuable insights into potential agents.
-            </p>
+            <section id="key-factors" className="mb-8">
+              <h2 className="text-3xl font-bold mt-8 mb-4 text-white border-b-2 border-gray-500 pb-2">
+                Key Factors to Consider
+              </h2>
+              <p>
+                <strong>Experience & Expertise:</strong> Selecting a broker with extensive experience and a proven track
+                record is crucial. An experienced agent brings superior negotiation skills, invaluable market insights,
+                and a deep understanding of Dubai’s real estate landscape, significantly enhancing your transaction's
+                success.
+              </p>
+            </section>
 
-            <h2
-              style={{
-                fontSize: '1.8rem',
-                marginTop: '30px',
-                marginBottom: '15px',
-                color: '#ffffff',
-                borderBottom: '2px solid #ffffff',
-                paddingBottom: '5px',
-              }}
-            >
-              Essential Questions to Ask Before Hiring a Real Estate Agent
-            </h2>
-            <ul style={{ paddingLeft: '20px' }}>
-              <li>Can you share testimonials or contacts of previous clients for reference?</li>
-              <li>What is your level of experience in the real estate industry?</li>
-            </ul>
+            <section id="finding-agent" className="mb-8">
+              <h2 className="text-3xl font-bold mt-8 mb-4 text-white border-b-2 border-gray-500 pb-2">
+                Finding a Reputable Agent
+              </h2>
+              <p>
+                <strong>Seek Recommendations:</strong> Reach out to friends, family, or colleagues who have recently engaged
+                in property transactions in Dubai. Their experiences can provide valuable insights into potential agents.
+              </p>
+            </section>
 
-            <h2
-              style={{
-                fontSize: '1.8rem',
-                marginTop: '30px',
-                marginBottom: '15px',
-                color: '#ffffff',
-                borderBottom: '2px solid #ffffff',
-                paddingBottom: '5px',
-              }}
-            >
-              Tips for Choosing the Best Real Estate Agent in Dubai
-            </h2>
-            <p>
-              <strong>Meet Multiple Agents:</strong> Don’t settle on the first agent you meet. Interview several certified
-              brokers to find the one that best matches your requirements.
-            </p>
-          </section>
-        </article>
+            <section id="essential-questions" className="mb-8">
+              <h2 className="text-3xl font-bold mt-8 mb-4 text-white border-b-2 border-gray-500 pb-2">
+                Essential Questions to Ask
+              </h2>
+              <ul className="list-disc list-inside pl-4 space-y-2">
+                <li>Can you share testimonials or contacts of previous clients for reference?</li>
+                <li>What is your level of experience in the real estate industry?</li>
+              </ul>
+            </section>
+          </article>
+
+          {/* Sidebar */}
+          <aside className="md:col-span-1">
+            <div className="sticky top-24">
+              <h3 className="text-2xl font-bold mb-4 text-white">Table of Contents</h3>
+              <ul className="space-y-2 text-gray-300">
+                <li><a href="#key-factors" className="hover:text-white">Key Factors</a></li>
+                <li><a href="#finding-agent" className="hover:text-white">Finding an Agent</a></li>
+                <li><a href="#essential-questions" className="hover:text-white">Essential Questions</a></li>
+              </ul>
+
+              <h3 className="text-2xl font-bold mt-12 mb-4 text-white">Share This Post</h3>
+              <div className="flex space-x-4">
+                <a href="#" className="text-gray-400 hover:text-white"><i className="fab fa-facebook-f"></i></a>
+                <a href="#" className="text-gray-400 hover:text-white"><i className="fab fa-twitter"></i></a>
+                <a href="#" className="text-gray-400 hover:text-white"><i className="fab fa-linkedin-in"></i></a>
+                <a href="#" className="text-gray-400 hover:text-white"><i className="fas fa-link"></i></a>
+              </div>
+            </div>
+          </aside>
+        </div>
 
         {/* Similar Projects Section */}
-<section style={{ marginTop: '60px' }}>
-  <h2 style={{ fontSize: '1.8rem', marginBottom: '20px', borderBottom: '2px solid #ffffff', paddingBottom: '5px' }}>
-    Similar Topics
-  </h2>
-  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-    {allblogs.map((project) => (
-      <a
-        href={`/SpecificBlog/${project._id}`} // Dynamically link to SpecificBlog/:id
-        key={project._id} // Use _id as the unique key
-        style={{
-          backgroundColor: '#1c1e1b',
-          borderRadius: '10px',
-          overflow: 'hidden',
-          textDecoration: 'none',
-          color: '#ffffff',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-          transition: 'transform 0.3s ease-in-out',
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-      >
-        <img
-          src={project.image || "https://via.placeholder.com/300"} // Fallback image
-          alt={project.title || "No Title"}
-          style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '10px 10px 0 0' }}
-        />
-        <div style={{ padding: '15px' }}>
-          <h3 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '10px' }}>
-            {project.title || "No Title"}
-          </h3>
-          <p style={{ fontSize: '0.9rem', color: '#a0b3b1' }}>
-            {project.description ? project.description.slice(0, 100) + "..." : "No description available."}
-          </p>
-        </div>
-      </a>
-    ))}
-  </div>
-</section>
+        <section className="mt-24">
+          <h2 className="text-4xl font-bold mb-8 text-white border-b-2 border-gray-500 pb-4">
+            Similar Topics
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {allblogs.map((blog) => (
+              <a
+                href={`/SpecificBlog/${blog._id}`}
+                key={blog._id}
+                className="block bg-[#1c1e1b] rounded-lg shadow-lg overflow-hidden transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl group"
+              >
+                <div className="relative w-full h-56">
+                  <img
+                    src={blog.image || "https://via.placeholder.com/400"}
+                    alt={blog.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                  <span className="absolute top-4 left-4 bg-[#a0b3b1] text-black text-xs font-bold uppercase px-3 py-1 rounded-full">
+                    {blog.category}
+                  </span>
+                </div>
 
+                <div className="p-5">
+                  <h3 className="text-xl font-bold text-white mb-3 leading-tight">
+                    {blog.title || "No Title"}
+                  </h3>
+                  <p className="text-sm text-gray-400 mb-4">
+                    By <span className="font-semibold text-white">{blog.author}</span> | {blog.date || "No Date"}
+                  </p>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="inline-flex items-center font-semibold text-[#a0b3b1] hover:text-white transition-colors duration-300">
+                      Read More
+                      <svg
+                        className="w-4 h-4 ml-2 transform transition-transform duration-300 group-hover:translate-x-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        ></path>
+                      </svg>
+                    </span>
+                    <div className="flex items-center space-x-2 text-gray-400">
+                      <i className="fas fa-eye"></i>
+                      <span className="font-medium">{blog.views || 0}</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
