@@ -1,37 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import axios from "axios";
+import image3 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.09.49_2c7d0f0b.jpg";
+import image4 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.10.05_5698d1bc.jpg";
+import image5 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.10.05_bb50a06f.jpg";
 
 function Projects() {
-  const [offplan, setOffplan] = useState([]); // State to store off-plan projects
-  const [featuresCards, setFeaturesCards] = useState([]); // State to store feature cards
-  const [loading, setLoading] = useState(true); // State to manage loading status
+  const offplan = [
+    {
+      _id: "1",
+      title: "DLD’s New Rules Enhance Transparency in Dubai Real Estate Sector",
+      description: "Learn about the new rules introduced by the Dubai Land Department aimed at increasing transparency.",
+      imgSrcs: [image3],
+    },
+    {
+      _id: "2",
+      title: "Unlocking Opportunities in Real Estate",
+      description: "Discover the challenges and opportunities that define the journey of a real estate agent in Dubai.",
+      imgSrcs: [image4],
+    },
+    {
+      _id: "3",
+      title: "Investment Insights: Dubai’s Real Estate Trends",
+      description: "Explore key real estate trends shaping the Dubai property market and how to make the best investment decisions.",
+      imgSrcs: [image5],
+    },
+  ];
 
-  // Fetch projects from APIs
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        // Fetch off-plan projects
-        const offplanResponse = await axios.get("https://joya-back.onrender.com/offplan");
-        setOffplan(offplanResponse.data.data);
-      } catch (error) {
-        console.error("Error fetching off-plan projects:", error);
-      }
-
-      try {
-        // Fetch features projects
-        const featuresResponse = await axios.get("https://joya-back.onrender.com/feature");
-        setFeaturesCards(featuresResponse.data.data);
-      } catch (error) {
-        console.error("Error fetching feature cards:", error);
-      } finally {
-        setLoading(false); // Set loading to false after fetching
-      }
-    };
-
-    fetchProjects();
-  }, []);
+  const featuresCards = [
+    {
+      _id: "1",
+      title: "DLD’s New Rules Enhance Transparency in Dubai Real Estate Sector",
+      description: "Learn about the new rules introduced by the Dubai Land Department aimed at increasing transparency.",
+      imgSrcs: [image3],
+    },
+    {
+      _id: "2",
+      title: "Unlocking Opportunities in Real Estate",
+      description: "Discover the challenges and opportunities that define the journey of a real estate agent in Dubai.",
+      imgSrcs: [image4],
+    },
+    {
+      _id: "3",
+      title: "Investment Insights: Dubai’s Real Estate Trends",
+      description: "Explore key real estate trends shaping the Dubai property market and how to make the best investment decisions.",
+      imgSrcs: [image5],
+    },
+  ];
 
   // Initialize AOS for animations
   useEffect(() => {
@@ -59,12 +74,7 @@ function Projects() {
       <h2 className="text-5xl font-semibold text-white mb-14 mt-20" data-aos="fade-down">
         Off Plan
       </h2>
-      {loading ? (
-        <p className="text-white text-xl">Loading...</p>
-      ) : offplan.length === 0 ? (
-        <p className="text-white text-xl">No off-plan projects available.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-32">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-32">
           {offplan.map((card, index) => (
             <a
               href={`/Projects/Off-Plan2/${card._id}`}
@@ -87,7 +97,6 @@ function Projects() {
             </a>
           ))}
         </div>
-      )}
 
       {/* Features Section */}
       <h2 className="text-5xl font-semibold text-white mb-14" data-aos="fade-down">

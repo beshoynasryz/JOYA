@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import axios from "axios";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 function OffPlan() {
-  const [offplan, setOffplan] = useState([]); // State to store off-plan data
-  const [loading, setLoading] = useState(true); // State to manage loading status
-
-  // Fetch data from API
-  useEffect(() => {
-    const fetchOffPlanData = async () => {
-      try {
-        const response = await axios.get("https://joya-back.onrender.com/offplan");
-        setOffplan(response.data.data); // Update state with fetched data
-      } catch (error) {
-        console.error("Error fetching the off-plan data:", error);
-      } finally {
-        setLoading(false); // Set loading to false
-      }
-    };
-
-    fetchOffPlanData();
-  }, []);
+  const offplan = [
+    {
+      _id: "1",
+      title: "Emaar Beachfront",
+      description: "A private, gated island community on the Arabian Gulf, offering a range of luxury apartments, villas, and townhouses.",
+      imgSrcs: ["https://i.imgur.com/fQhZJ5M.jpg"],
+    },
+    {
+      _id: "2",
+      title: "Dubai Hills Estate",
+      description: "A city within a city, Dubai Hills Estate is a 2,700-acre development with villas, apartments, and a championship golf course.",
+      imgSrcs: ["https://i.imgur.com/Jd3kYpM.jpg"],
+    },
+    {
+      _id: "3",
+      title: "Arabian Ranches III",
+      description: "The latest phase of the popular Arabian Ranches community, offering a range of townhouses and villas with a focus on family living.",
+      imgSrcs: ["https://i.imgur.com/RJf3TfT.jpg"],
+    },
+  ];
 
   // Initialize AOS animations
   useEffect(() => {
@@ -53,10 +54,7 @@ function OffPlan() {
         Off Plan
       </h2>
 
-      {loading ? (
-        <p className="text-white text-lg">Loading...</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-32">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl px-4 mb-32">
           {offplan.map((item, index) => (
             <Link
               to={`/Projects/Off-Plan2/${item._id}`} // Use _id for dynamic routing
@@ -81,7 +79,6 @@ function OffPlan() {
             </Link>
           ))}
         </div>
-      )}
     </div>
   );
 }

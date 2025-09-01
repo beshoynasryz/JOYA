@@ -1,67 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import image1 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.10.05_bb50a06f.jpg";
 import image2 from "../../images/sliders/Profile Pic 1.png";
 import image3 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.09.49_2c7d0f0b.jpg";
 import image4 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.10.05_5698d1bc.jpg";
 import image5 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.10.05_5698d1bc.jpg";
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-
 
 export default function SpecificBlog() {
+  const blog = {
+    title: "DLD’s New Rules Enhance Transparency in Dubai Real Estate Sector",
+    agent: image2,
+    image: image1,
+  };
 
-  const [blog, setBlog] = useState([]); 
-  const [allblogs,setallblogs]=useState([]);
-  const [loading, setLoading] = useState(true); 
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get(`https://joya-back.onrender.com/blog/${id}`);
-        setBlog(response.data.data); 
-      } catch (error) {
-        console.error("Error fetching the blogs:", error);
-      } finally {
-        setLoading(false); // Set loading to false
-      }
-
-      try {
-        const response = await axios.get(`https://joya-back.onrender.com/blog`);
-        setallblogs(response.data.data); 
-      } catch (error) {
-        console.error("Error fetching the blogs:", error);
-      } finally {
-       
-      }
-    };
-
-    fetchBlogs();
-  }, []); 
-
-  const {id}=useParams();
-  console.log(blog)
+  const allblogs = [
+    {
+      _id: "1",
+      title: "DLD’s New Rules Enhance Transparency in Dubai Real Estate Sector",
+      description: "Learn about the new rules introduced by the Dubai Land Department aimed at increasing transparency.",
+      image: image3,
+    },
+    {
+      _id: "2",
+      title: "Unlocking Opportunities in Real Estate",
+      description: "Discover the challenges and opportunities that define the journey of a real estate agent in Dubai.",
+      image: image4,
+    },
+    {
+      _id: "3",
+      title: "Investment Insights: Dubai’s Real Estate Trends",
+      description: "Explore key real estate trends shaping the Dubai property market and how to make the best investment decisions.",
+      image: image5,
+    },
+  ];
 
   
-    const similarProjects = [
-        {
-          title: "DLD’s New Rules Enhance Transparency in Dubai Real Estate Sector",
-          description: "Learn about the new rules introduced by the Dubai Land Department aimed at increasing transparency.",
-          imgSrc: image3,
-          link: "/SpecificBlog",
-        },
-        {
-          title: "Unlocking Opportunities in Real Estate",
-          description: "Discover the challenges and opportunities that define the journey of a real estate agent in Dubai.",
-          imgSrc: image4,
-          link: "/SpecificBlog",
-        },
-        {
-          title: "Investment Insights: Dubai’s Real Estate Trends",
-          description: "Explore key real estate trends shaping the Dubai property market and how to make the best investment decisions.",
-          imgSrc: image5,
-          link: "/SpecificBlog",
-        },
-      ];
+    
 
   return (
     <div style={{ backgroundColor: '#041d1a', padding: '20px', minHeight: '100vh' }}>

@@ -1,27 +1,7 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const OffPlan = () => {
-  const [offplan, setoffplan] = useState([]); // State to store blogs
-  const [loading, setLoading] = useState(true); // State to manage loading status
-
-  // Fetch blogs from API
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get("https://joya-back.onrender.com/offplan");
-        setoffplan(response.data.data); // Update blogs state with fetched data
-      } catch (error) {
-        console.error("Error fetching the blogs:", error);
-      } finally {
-        setLoading(false); // Set loading to false
-      }
-    };
-
-    fetchBlogs();
-  }, []); 
-
-  console.log(offplan)
+  const offplan = [];
  
   return (
     <div className="px-[60px]">

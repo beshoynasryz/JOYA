@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { FaPhoneAlt, FaWhatsapp, FaBed, FaBath, FaRulerCombined, FaCar, FaCity, FaShip, FaPlane, FaGlobe } from "react-icons/fa";
 import MortgageCalculator from "../../../services/MortageCalculator";
@@ -16,49 +16,14 @@ import icon8 from "../../../../images/icons/Beds.svg"
  
 
 import VisualImage from "./VisualImage";
-import axios from "axios";
 import { useParams } from "react-router-dom";
+import { allProjects } from "../../allProjects";
 
 
 const OffPlanDetails = () => {
-  const [offplan, setoffplan] = useState([]); // State to store blogs
-  const [loading, setLoading] = useState(true); // State to manage loading status
-  const [allofplan,setallofplan] =useState([])
   const {id}=useParams();
-
-  // Fetch blogs from API
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get(`https://joya-back.onrender.com/offplan/${id}`);
-        setoffplan(response.data.data); // Update blogs state with fetched data
-      } catch (error) {
-        console.error("Error fetching the blogs:", error);
-      } finally {
-        setLoading(false); // Set loading to false
-      }
-    };
-
-    fetchBlogs();
-  }, []); 
-  console.log(offplan)
-
-
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get(`https://joya-back.onrender.com/offplan`);
-        setallofplan(response.data.data); // Update blogs state with fetched data
-      } catch (error) {
-        console.error("Error fetching the blogs:", error);
-      } finally {
-        setLoading(false); // Set loading to false
-      }
-    };
-
-    fetchBlogs();
-  }, []); 
+  const offplan = allProjects.find((p) => p._id === id);
+  const allofplan = allProjects;
 
  
   const project = {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -6,18 +6,40 @@ import "swiper/css/navigation";
 import { Autoplay } from "swiper/modules";
 
 const PropertySlider = () => {
-  const [properties, setProperties] = useState([]);
-
-  // useEffect(() => {
-  //   async function fetchProperties() {
-  //     const data = await fetch(
-  //       "https://joya-backend-deploy-test.vercel.app/property/get-all-properties"
-  //     );
-  //     const res = await data.json();
-  //     setProperties(res.properties);
-  //   }
-  //   fetchProperties();
-  // }, []);
+  const properties = [
+    {
+      _id: "1",
+      title: "Villa Amaiia",
+      location: "Al Barari",
+      price: 0,
+      card_image: "./List-and-offplan 100x667/1.png",
+      slug: "villa-amaiia",
+    },
+    {
+      _id: "2",
+      title: "Sea Mirror",
+      location: "Jumeirah Bay Island",
+      price: 0,
+      card_image: "./List-and-offplan 100x667/2.png",
+      slug: "sea-mirror",
+    },
+    {
+      _id: "3",
+      title: "Golf Course Plot",
+      location: "Emirates Hills",
+      price: 66300000,
+      card_image: "./List-and-offplan 100x667/3.png",
+      slug: "golf-course-plot",
+    },
+    {
+      _id: "4",
+      title: "Parkway’s Mansion",
+      location: "Dubai Hills",
+      price: 47000000,
+      card_image: "./List-and-offplan 100x667/4.png",
+      slug: "parkways-mansion",
+    },
+  ];
 
   return (
     <div className="w-full py-10 px-1 md:pl-[60px]">

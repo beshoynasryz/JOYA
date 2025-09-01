@@ -1,25 +1,38 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import image3 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.09.49_2c7d0f0b.jpg";
+import image4 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.10.05_5698d1bc.jpg";
+import image5 from "../../images/Blogs/WhatsApp Image 2024-11-18 at 22.10.05_bb50a06f.jpg";
 
 const Blog = () => {
-  const [blogs, setBlogs] = useState([]); // State to store blogs
-  const [loading, setLoading] = useState(true); // State to manage loading status
-
-  // Fetch blogs from API
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get("https://joya-back.onrender.com/blog");
-        setBlogs(response.data.data); // Update blogs state with fetched data
-      } catch (error) {
-        console.error("Error fetching the blogs:", error);
-      } finally {
-        setLoading(false); // Set loading to false
-      }
-    };
-
-    fetchBlogs();
-  }, []); // Empty dependency array ensures it runs once on mount
+  const blogs = [
+    {
+      _id: "1",
+      title: "DLD’s New Rules Enhance Transparency in Dubai Real Estate Sector",
+      author: "Nabeel Hammudeh",
+      date: "Monday, 22 July, 2024",
+      description: "Learn about the new rules introduced by the Dubai Land Department aimed at increasing transparency.",
+      image: image3,
+      views: 120,
+    },
+    {
+      _id: "2",
+      title: "Unlocking Opportunities in Real Estate",
+      author: "Nabeel Hammudeh",
+      date: "Friday, 19 July, 2024",
+      description: "Discover the challenges and opportunities that define the journey of a real estate agent in Dubai.",
+      image: image4,
+      views: 250,
+    },
+    {
+      _id: "3",
+      title: "Investment Insights: Dubai’s Real Estate Trends",
+      author: "Nabeel Hammudeh",
+      date: "Wednesday, 17 July, 2024",
+      description: "Explore key real estate trends shaping the Dubai property market and how to make the best investment decisions.",
+      image: image5,
+      views: 300,
+    },
+  ];
 
   return (
     <div className="bg-[#111612] text-white">
@@ -47,11 +60,7 @@ const Blog = () => {
       <div className="py-12 px-4">
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Loading Indicator */}
-          {loading ? (
-            <div className="text-center">
-              <p className="text-xl text-gray-400">Loading blogs...</p>
-            </div>
-          ) : blogs.length > 0 ? (
+          {blogs.length > 0 ? (
             blogs.map((blog) => (
               <a
                 href={`/SpecificBlog/${blog._id}`} // Dynamic link to /SpecificBlog/:id
